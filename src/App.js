@@ -75,15 +75,30 @@ class Game extends React.Component {
     if (index >= sizeHistory)
       return;
 
+    let data = null;
     if (sortDecreaseHistory) {
       for (let i = sizeHistory - 1; i >= index; i--) {
-        const data = history[i];
+        data = history[i];
         squares[data.i * size + data.j] = data.value;
       }
     } else {
       for (let i = 0; i <= index; i++) {
-        const data = history[i];
+        data = history[i];
         squares[data.i * size + data.j] = data.value;
+      }
+    }
+
+    // check winner
+    if (data != null) {
+      if (this.checkWinner(squares, data.i, data.j, this.state.xIsNext ? 'X' : 'O')) {
+        this.setState({
+          winner: this.state.xIsNext ? 'X' : 'O',
+        })
+      } else {
+        this.setState({
+          winner: null,
+          winPositions: [],
+        })
       }
     }
 
@@ -97,10 +112,13 @@ class Game extends React.Component {
   handleSortHistoryClick() {
     const sortDecreaseHistory = this.state.sortDecreaseHistory;
     let history = this.state.history.slice();
+    let indexHistorySelect = this.state.indexHistorySelect;
+    indexHistorySelect = history.length - indexHistorySelect - 1;
     history = history.reverse();
     this.setState({
       sortDecreaseHistory: !sortDecreaseHistory,
       history: history,
+      indexHistorySelect: indexHistorySelect,
     });
   }
 
