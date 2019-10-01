@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './Game.css';
 import Board from './Board';
 
 class Game extends React.Component {
@@ -17,14 +17,12 @@ class Game extends React.Component {
   }
 
   handleClick(i, j) {
-    if (this.state.squares[i * this.props.size + j] || this.state.winner)
-      return;
-
-    const squares = this.state.squares.slice();
-    let history = this.state.history.slice();
-    let indexHistorySelect = this.state.indexHistorySelect;
-    const sortDecreaseHistory = this.state.sortDecreaseHistory;
-
+    const {squares, winner, sortDecreaseHistory} = this.state;
+    const {size} = this.props;
+    let {history, indexHistorySelect} = this.state;
+    
+    if (squares[i * size + j] || winner)
+        return;
     if (indexHistorySelect !== -1) {
       if (sortDecreaseHistory) {
         history = history.slice(indexHistorySelect);
