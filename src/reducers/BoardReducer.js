@@ -1,5 +1,5 @@
 function checkWinner(squares, i, j, person) {
-  const { size } = this.props;
+  const size = Math.sqrt(squares.length);
   // check hàng ngang
   let dem = 0;
   let winPositions = [];
@@ -264,10 +264,9 @@ const BoardReducer = (
       };
     case 'ON_BOARD_CLICK': {
       const { squares, winner, sortDecreaseHistory, xIsNext } = state;
-      const { size } = this.props;
+      const size = Math.sqrt(squares.length);
       const { i, j } = action;
-      let { history, indexHistorySelect } = this.state;
-
+      let { history, indexHistorySelect } = state;
       if (squares[i * size + j] || winner) return state;
       if (indexHistorySelect !== -1) {
         if (sortDecreaseHistory) {
@@ -295,22 +294,54 @@ const BoardReducer = (
         });
       }
 
+      const value = squares[i * size + j];
+      const result = checkWinner(squares, i, j, value);
       return {
         ...state,
+        winner: result.isWin ? value : null,
+        winPositions: result.winPositions,
         squares,
         xIsNext: !xIsNext,
         history,
         indexHistorySelect
       };
     }
-    case 'CHECK_WIN': {
-      const { squares } = state;
-      const value = squares[action.i * squares.length + action.j];
-      const result = checkWinner(squares, action.i, action.j, value);
+    case 'SORT_HISTORY':
       return {
         ...state,
-        isWin: result.isWin ? value : null,
-        winPositions: result.winPositions
+        sortDecreaseHistory: !state.sortDecreaseHistory,
+        history: state.history.reverse(),
+        indexHistorySelect: state.history.length - state.indexHistorySelect - 1
+      };
+    case 'ON_HISTORY_CLICK': {
+      const { history, sortDecreaseHistory, squares } = state;
+      const sizeHistory = history.length;
+      const size = Math.sqrt(squares.length);
+
+      if (action.index >= sizeHistory) return state;
+
+      let data = null;
+      squares.fill(null);
+      if (sortDecreaseHistory) {
+        for (let i = sizeHistory - 1; i >= action.index; i -= 1) {
+          data = history[i];
+          squares[data.i * size + data.j] = data.value;
+        }
+      } else {
+        for (let i = 0; i <= action.index; i += 1) {
+          data = history[i];
+          squares[data.i * size + data.j] = data.value;
+        }
+      }
+      const result = checkWinner(squares, data.i, data.j, data.value);
+
+      return {
+        ...state,
+        winner: result.isWin ? data.value : null,
+        winPositions: result.winPositions,
+        squares,
+        indexHistorySelect: action.index,
+        xIsNext: history[action.index].value !== 'X'
       };
     }
     default:

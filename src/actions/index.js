@@ -14,12 +14,6 @@ export const handleOnHistoryClick = index => ({
   index
 });
 
-export const checkWin = (i, j) => ({
-  type: 'CHECK_WIN',
-  i,
-  j
-});
-
 export const handleOnButtonSortClick = () => ({
   type: 'SORT_HISTORY'
 });

@@ -1,14 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import HistoryList from '../components/HistoryList';
-import {
-  handleOnButtonSortClick,
-  handleOnHistoryClick,
-  checkWin
-} from '../actions';
+import { handleOnButtonSortClick, handleOnHistoryClick } from '../actions';
 
 const mapStateToProps = state => ({
-  ...state.BoardReducer
+  ...state
 });
 
 class HistoryListContainer extends React.Component {
@@ -18,11 +14,8 @@ class HistoryListContainer extends React.Component {
   }
 
   handleHistoryClick(index) {
-    const { dispatch, history } = this.props;
+    const { dispatch } = this.props;
     dispatch(handleOnHistoryClick(index));
-    dispatch(
-      checkWin(history[index].i, history[index].j, history[index].value)
-    );
   }
 
   render() {

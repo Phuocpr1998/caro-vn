@@ -1,18 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Board from '../components/Board';
-import { checkWin, handleOnBoardClick, resetGame } from '../actions';
+import { handleOnBoardClick, resetGame } from '../actions';
 
 const mapStateToProps = state => ({
-  ...state.BoardReducer
+  ...state
 });
 
 class BoardContainer extends React.Component {
-  handleClick(i, j) {
+  handleClick = (i, j) => {
     const { dispatch } = this.props;
     dispatch(handleOnBoardClick(i, j));
-    dispatch(checkWin(i, j));
-  }
+  };
 
   resetGame() {
     const { dispatch } = this.props;
@@ -20,7 +19,6 @@ class BoardContainer extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { winner, squares, xIsNext, winPositions, size } = this.props;
     return (
       <Board
