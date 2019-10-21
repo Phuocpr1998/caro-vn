@@ -13,7 +13,7 @@ export default function LoginForm(props) {
       </div>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formBasicEmail">
-          <Form.Label>Địa chỉ </Form.Label>
+          <Form.Label>Địa chỉ email</Form.Label>
           <Form.Control type="email" placeholder="Nhập email" />
         </Form.Group>
         <Form.Group controlId="formBasicPassword">
