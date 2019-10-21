@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import '../content/Game.css';
-import BoardContainer from '../containers/BoardContainer';
-import HistoryListContainer from '../containers/HistoryListContainer';
+import '../../content/Game.css';
+import BoardContainer from '../../containers/BoardContainer';
+import HistoryListContainer from '../../containers/HistoryListContainer';
 
 function Game() {
   return (

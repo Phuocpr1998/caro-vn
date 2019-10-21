@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import HistoryList from '../components/HistoryList';
+import HistoryList from '../components/gameplay/HistoryList';
 import { handleOnButtonSortClick, handleOnHistoryClick } from '../actions';
 
 const mapStateToProps = state => ({
