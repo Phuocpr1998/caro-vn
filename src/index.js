@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './content/index.css';
@@ -8,20 +9,20 @@ import './content/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Game from './components/gameplay/Game';
 import rootReducer from './reducers';
-import LoginForm from './components/login/LoginForm';
-import RegisterForm from './components/register/RegisterForm';
+import LoginContainer from './containers/login/LoginContainer';
+import RegisterContainer from './containers/register/RegisterContainer';
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
         <Route path="/login">
-          <LoginForm />
+          <LoginContainer />
         </Route>
         <Route path="/register">
-          <RegisterForm />
+          <RegisterContainer />
         </Route>
         <Route path="/play">
           <Game />

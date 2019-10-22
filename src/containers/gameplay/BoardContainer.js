@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Board from '../components/gameplay/Board';
-import { handleOnBoardClick, resetGame } from '../actions';
+import Board from '../../components/gameplay/Board';
+import { handleOnBoardClick, resetGame } from '../../actions';
 
 const mapStateToProps = state => ({
-  ...state
+  ...state.BoardReducer
 });
 
 class BoardContainer extends React.Component {

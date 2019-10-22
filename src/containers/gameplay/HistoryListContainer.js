@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import HistoryList from '../components/gameplay/HistoryList';
-import { handleOnButtonSortClick, handleOnHistoryClick } from '../actions';
+import HistoryList from '../../components/gameplay/HistoryList';
+import { handleOnButtonSortClick, handleOnHistoryClick } from '../../actions';
 
 const mapStateToProps = state => ({
-  ...state
+  ...state.BoardReducer
 });
 
 class HistoryListContainer extends React.Component {

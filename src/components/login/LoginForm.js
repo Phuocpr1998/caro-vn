@@ -4,7 +4,7 @@ import logo from '../../content/logo.png';
 import TitleComponent from '../title/TitleComponent';
 
 export default function LoginForm(props) {
-  const { handleSubmit } = props;
+  const { handleSubmit, handlePasswordChange, handleEmailChange } = props;
   return (
     <>
       <TitleComponent title="Đăng nhập" />
@@ -14,14 +14,19 @@ export default function LoginForm(props) {
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Địa chỉ email</Form.Label>
-          <Form.Control type="email" placeholder="Nhập email" />
+          <Form.Control
+            type="email"
+            placeholder="Nhập email"
+            onChange={handleEmailChange}
+          />
         </Form.Group>
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Mật khẩu</Form.Label>
-          <Form.Control type="password" placeholder="Nhập mật khẩu" />
-        </Form.Group>
-        <Form.Group controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Nhớ đăng nhập" />
+          <Form.Control
+            type="password"
+            placeholder="Nhập mật khẩu"
+            onChange={handlePasswordChange}
+          />
         </Form.Group>
         <Button variant="primary" type="submit">
           Đăng nhập
