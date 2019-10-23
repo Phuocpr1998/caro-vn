@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Form, Button, Image } from 'react-bootstrap';
 import logo from '../../content/logo.png';
 import TitleComponent from '../title/TitleComponent';
@@ -8,10 +9,45 @@ export default function RegisterForm(props) {
     handleSubmit,
     handleEmailChange,
     handleNameChange,
-    handleBirthDateChange,
+    handleBirthDayChange,
     handlePasswordChange,
-    handleRePasswordChange
+    handleRePasswordChange,
+    isRequest,
+    error,
+    requestDone
   } = props;
+
+  // redirect to login page
+  if (requestDone) {
+    return <Redirect to="/login" />;
+  }
+
+  let button;
+  if (isRequest) {
+    button = (
+      <Button variant="danger" type="submit" disabled>
+        Đăng ký
+      </Button>
+    );
+  } else {
+    button = (
+      <Button variant="danger" type="submit">
+        Đăng ký
+      </Button>
+    );
+  }
+
+  let message;
+  if (error !== undefined && error !== null) {
+    message = (
+      <Form.Group variant="danger">
+        <Form.Label variant="danger">{error.err}</Form.Label>
+      </Form.Group>
+    );
+  } else {
+    message = <></>;
+  }
+
   return (
     <>
       <TitleComponent title="Đăng ký tài khoản" />
@@ -25,6 +61,7 @@ export default function RegisterForm(props) {
             type="email"
             placeholder="Nhập email"
             onChange={handleEmailChange}
+            required
           />
         </Form.Group>
         <Form.Group controlId="formBasicName">
@@ -33,6 +70,7 @@ export default function RegisterForm(props) {
             type="text"
             placeholder="Nhập họ và tên"
             onChange={handleNameChange}
+            required
           />
         </Form.Group>
         <Form.Group controlId="formBasicName">
@@ -40,7 +78,8 @@ export default function RegisterForm(props) {
           <Form.Control
             type="date"
             placeholder="Nhập ngày sinh"
-            onChange={handleBirthDateChange}
+            onChange={handleBirthDayChange}
+            required
           />
         </Form.Group>
         <Form.Group controlId="formBasicPassword">
@@ -49,6 +88,7 @@ export default function RegisterForm(props) {
             type="password"
             placeholder="Nhập mật khẩu"
             onChange={handlePasswordChange}
+            required
           />
         </Form.Group>
         <Form.Group controlId="formBasicRePassword">
@@ -57,11 +97,11 @@ export default function RegisterForm(props) {
             type="password"
             placeholder="Nhập xác nhận mật khẩu"
             onChange={handleRePasswordChange}
+            required
           />
         </Form.Group>
-        <Button variant="danger" type="submit">
-          Đăng ký
-        </Button>
+        {message}
+        {button}
       </Form>
     </>
   );

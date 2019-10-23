@@ -6,7 +6,10 @@ const RegisterReducer = (
       repassword: '',
       name: '',
       birthday: ''
-    }
+    },
+    error: null,
+    isRequest: false,
+    requestDone: false
   },
   action
 ) => {
@@ -50,6 +53,26 @@ const RegisterReducer = (
           ...state.user,
           name: action.name
         }
+      };
+    case 'REQUEST_REGISTER':
+      return {
+        ...state,
+        isRequest: true,
+        requestDone: false
+      };
+    case 'REQUEST_REGISTER_DONE':
+      return {
+        ...state,
+        isRequest: false,
+        error: null,
+        requestDone: true
+      };
+    case 'REQUEST_REGISTER_FAIL':
+      return {
+        ...state,
+        isRequest: false,
+        error: action.error,
+        requestDone: false
       };
     default:
       return state;

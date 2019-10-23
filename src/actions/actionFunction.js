@@ -51,12 +51,15 @@ export function register(user) {
         name: user.name,
         birthday: user.birthday
       })
-    })
-      .then(
-        response => response.json(),
-        error => dispatch(requestPostRegisterError(error))
-      )
-      .then(json => dispatch(requestPostRegisterDone(json)));
+    }).then(
+      response =>
+        response.status !== 200
+          ? response.json().then(err => dispatch(requestPostRegisterError(err)))
+          : response
+              .json()
+              .then(json => dispatch(requestPostRegisterDone(json))),
+      error => dispatch(requestPostRegisterError(error))
+    );
   };
 }
 

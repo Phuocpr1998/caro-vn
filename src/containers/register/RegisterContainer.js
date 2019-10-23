@@ -7,7 +7,8 @@ import {
   passwordRegisterChange,
   rePasswordRegisterChange,
   nameRegisterChange,
-  birthdayRegisterChange
+  birthdayRegisterChange,
+  requestPostRegisterError
 } from '../../actions';
 
 const mapStateToProps = state => ({
@@ -18,7 +19,15 @@ class RegisterContainer extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { dispatch, user } = this.props;
-    dispatch(register(user));
+    if (user.password !== user.repassword) {
+      dispatch(
+        requestPostRegisterError({
+          err: 'Password and Repassword is not the same'
+        })
+      );
+    } else {
+      dispatch(register(user));
+    }
   }
 
   handleEmailChange(e) {
@@ -47,6 +56,7 @@ class RegisterContainer extends React.Component {
   }
 
   render() {
+    const { isRequest, error, requestDone } = this.props;
     return (
       <RegisterForm
         handleSubmit={e => this.handleSubmit(e)}
@@ -54,7 +64,10 @@ class RegisterContainer extends React.Component {
         handlePasswordChange={e => this.handlePasswordChange(e)}
         handleRePasswordChange={e => this.handleRePasswordChange(e)}
         handleNameChange={e => this.handleNameChange(e)}
-        handleBirthDateChange={e => this.handleBirthDayChange(e)}
+        handleBirthDayChange={e => this.handleBirthDayChange(e)}
+        isRequest={isRequest}
+        error={error}
+        requestDone={requestDone}
       />
     );
   }
