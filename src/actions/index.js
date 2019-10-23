@@ -81,6 +81,14 @@ export const requestPostRegisterError = error => ({
   error
 });
 
+export const requestPlayGame = () => ({
+  type: 'PROFILE_PLAYGAME'
+});
+
+export const requestLogout = () => ({
+  type: 'PROFILE_LOGOUT'
+});
+
 export const requestGetProfileInfo = () => ({
   type: 'REQUEST_GET_PROFILE'
 });

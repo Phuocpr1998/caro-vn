@@ -11,6 +11,7 @@ import Game from './components/gameplay/Game';
 import rootReducer from './reducers';
 import LoginContainer from './containers/login/LoginContainer';
 import RegisterContainer from './containers/register/RegisterContainer';
+import HomeContainer from './containers/home/HomeContainer';
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
@@ -26,6 +27,9 @@ ReactDOM.render(
         </Route>
         <Route path="/play">
           <Game />
+        </Route>
+        <Route path="/">
+          <HomeContainer />
         </Route>
       </Switch>
     </Router>

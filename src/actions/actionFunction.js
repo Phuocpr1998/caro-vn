@@ -64,7 +64,14 @@ export function register(user) {
   };
 }
 
-export function getProfile(token) {
+export function getProfile() {
+  const token = localStorage.getItem('userToken');
+  if (token === null) {
+    // eslint-disable-next-line func-names
+    return function(dispatch) {
+      return dispatch(requestGetProfileInfoError('Token not found'));
+    };
+  }
   // eslint-disable-next-line func-names
   return function(dispatch) {
     dispatch(requestGetProfileInfo());

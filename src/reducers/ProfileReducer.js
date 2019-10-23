@@ -1,13 +1,11 @@
 const ProfileReducer = (
   state = {
-    user: {
-      name: '',
-      birthday: '',
-      email: ''
-    },
+    user: null,
     isRequest: false,
     error: null,
-    requestDone: false
+    requestDone: false,
+    logout: false,
+    playgame: false
   },
   action
 ) => {
@@ -33,6 +31,16 @@ const ProfileReducer = (
         error: action.error,
         requestDone: false,
         isRequest: false
+      };
+    case 'PROFILE_PLAYGAME':
+      return {
+        ...state,
+        playgame: true
+      };
+    case 'PROFILE_LOGOUT':
+      return {
+        ...state,
+        logout: true
       };
     default:
       return state;
