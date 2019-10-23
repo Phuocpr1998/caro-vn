@@ -2,7 +2,11 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HomeComponent from '../../components/home/HomeComponent';
-import { requestPlayGame, requestLogout } from '../../actions';
+import {
+  requestPlayGame,
+  requestLogout,
+  requestLogoutDone
+} from '../../actions';
 import { getProfile } from '../../actions/actionFunction';
 
 const mapStateToProps = state => ({
@@ -10,6 +14,15 @@ const mapStateToProps = state => ({
 });
 
 class HomeContainer extends React.Component {
+  componentDidMount() {
+    const { dispatch, isRequest, user, logout } = this.props;
+    if (user === null && !isRequest) {
+      dispatch(getProfile());
+    } else if (logout) {
+      dispatch(requestLogoutDone());
+    }
+  }
+
   handleButtonPlayGame() {
     const { dispatch } = this.props;
     dispatch(requestPlayGame());
@@ -17,37 +30,30 @@ class HomeContainer extends React.Component {
 
   handleButtonLogout() {
     const { dispatch } = this.props;
+    localStorage.removeItem('userToken');
     dispatch(requestLogout());
   }
 
   render() {
     const {
       user,
-      dispatch,
       error,
       requestDone,
-      logout,
       playgame,
-      isRequest
+      isRequest,
+      logout
     } = this.props;
-    if (error !== null) {
-      return <Redirect to="/login" />;
-    }
 
-    if (user === null || !requestDone) {
-      if (!isRequest) {
-        dispatch(getProfile());
-      }
-      return <></>;
-    }
-
-    if (logout) {
-      localStorage.removeItem('userToken');
+    if ((!isRequest && error !== null) || logout) {
       return <Redirect to="/login" />;
     }
 
     if (playgame) {
       return <Redirect to="/play" />;
+    }
+
+    if (user === null || !requestDone) {
+      return <></>;
     }
 
     return (

@@ -12,8 +12,10 @@ const mapStateToProps = state => ({
 class LoginContainer extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
-    const { dispatch, user } = this.props;
-    dispatch(login(user));
+    const { dispatch, user, isRequest } = this.props;
+    if (!isRequest) {
+      dispatch(login(user));
+    }
   }
 
   handleEmailChange(e) {
@@ -27,11 +29,10 @@ class LoginContainer extends React.Component {
   }
 
   render() {
-    const { isRequest, error, requestDone, token } = this.props;
-
+    const { isRequest, error, requestDone } = this.props;
+    const token = localStorage.getItem('userToken');
     // redirect to home page
-    if (requestDone) {
-      localStorage.setItem('userToken', token);
+    if (requestDone && token !== null) {
       return <Redirect to="/" />;
     }
 

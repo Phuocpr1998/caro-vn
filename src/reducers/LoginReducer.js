@@ -35,12 +35,12 @@ const LoginReducer = (
         requestDone: false
       };
     case 'REQUEST_LOGIN_DONE':
+      localStorage.setItem('userToken', action.tokenInfo.token);
       return {
         ...state,
         isRequest: false,
         error: null,
-        requestDone: true,
-        token: action.tokenInfo.token
+        requestDone: true
       };
     case 'REQUEST_LOGIN_FAIL':
       return {

@@ -16,7 +16,7 @@ export function login(user) {
   // eslint-disable-next-line func-names
   return function(dispatch) {
     dispatch(requestPostLogin());
-    return fetch(`${HostAPI}/user/login`, {
+    fetch(`${HostAPI}/user/login`, {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -27,10 +27,15 @@ export function login(user) {
         password: user.password
       })
     }).then(
-      response =>
-        response.status !== 200
-          ? dispatch(requestPostLoginError('Username or password incorrect'))
-          : response.json().then(json => dispatch(requestPostLoginDone(json))),
+      response => {
+        if (response.status !== 200) {
+          if (response.status !== 204) {
+            dispatch(requestPostLoginError('Username or password incorrect'));
+          }
+        } else {
+          response.json().then(json => dispatch(requestPostLoginDone(json)));
+        }
+      },
       error => dispatch(requestPostLoginError(error))
     );
   };
@@ -40,7 +45,7 @@ export function register(user) {
   // eslint-disable-next-line func-names
   return function(dispatch) {
     dispatch(requestPostRegister());
-    return fetch(`${HostAPI}/user/register`, {
+    fetch(`${HostAPI}/user/register`, {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -53,12 +58,19 @@ export function register(user) {
         birthday: user.birthday
       })
     }).then(
-      response =>
-        response.status !== 200
-          ? response.json().then(err => dispatch(requestPostRegisterError(err)))
-          : response
+      response => {
+        if (response.status !== 200) {
+          if (response.status !== 204) {
+            response
               .json()
-              .then(json => dispatch(requestPostRegisterDone(json))),
+              .then(err => dispatch(requestPostRegisterError(err)));
+          } else {
+            dispatch(requestPostRegister());
+          }
+        } else {
+          response.json().then(json => dispatch(requestPostRegisterDone(json)));
+        }
+      },
       error => dispatch(requestPostRegisterError(error))
     );
   };
@@ -69,13 +81,13 @@ export function getProfile() {
   if (token === null) {
     // eslint-disable-next-line func-names
     return function(dispatch) {
-      return dispatch(requestGetProfileInfoError('Token not found'));
+      dispatch(requestGetProfileInfoError('Token not found'));
     };
   }
   // eslint-disable-next-line func-names
   return function(dispatch) {
     dispatch(requestGetProfileInfo());
-    return fetch(`${HostAPI}/me`, {
+    fetch(`${HostAPI}/me`, {
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -83,14 +95,21 @@ export function getProfile() {
         Authorization: `Bearer ${token}`
       }
     }).then(
-      response =>
-        response.status !== 200
-          ? response
+      response => {
+        if (response.status !== 200) {
+          if (response.status !== 204) {
+            response
               .json()
-              .then(err => dispatch(requestGetProfileInfoError(err)))
-          : response
-              .json()
-              .then(json => dispatch(requestGetProfileInfoDone(json))),
+              .then(err => dispatch(requestGetProfileInfoError(err)));
+          } else {
+            dispatch(requestGetProfileInfo());
+          }
+        } else {
+          response
+            .json()
+            .then(json => dispatch(requestGetProfileInfoDone(json)));
+        }
+      },
       error => dispatch(requestGetProfileInfoError(error))
     );
   };

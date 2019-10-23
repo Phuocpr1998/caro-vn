@@ -89,6 +89,10 @@ export const requestLogout = () => ({
   type: 'PROFILE_LOGOUT'
 });
 
+export const requestLogoutDone = () => ({
+  type: 'PROFILE_LOGOUT_DONE'
+});
+
 export const requestGetProfileInfo = () => ({
   type: 'REQUEST_GET_PROFILE'
 });
