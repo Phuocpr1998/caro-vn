@@ -57,9 +57,9 @@ export const requestPostLogin = () => ({
   type: 'REQUEST_LOGIN'
 });
 
-export const requestPostLoginDone = user => ({
+export const requestPostLoginDone = tokenInfo => ({
   type: 'REQUEST_LOGIN_DONE',
-  user
+  tokenInfo
 });
 
 export const requestPostLoginError = error => ({

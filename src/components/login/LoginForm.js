@@ -4,7 +4,40 @@ import logo from '../../content/logo.png';
 import TitleComponent from '../title/TitleComponent';
 
 export default function LoginForm(props) {
-  const { handleSubmit, handlePasswordChange, handleEmailChange } = props;
+  const {
+    handleSubmit,
+    handlePasswordChange,
+    handleEmailChange,
+    isRequest,
+    error
+  } = props;
+
+  let buttonLogin;
+  if (isRequest) {
+    buttonLogin = (
+      <Button variant="primary" type="submit" disabled>
+        Đăng nhập
+      </Button>
+    );
+  } else {
+    buttonLogin = (
+      <Button variant="primary" type="submit">
+        Đăng nhập
+      </Button>
+    );
+  }
+
+  let message;
+  if (error !== undefined && error !== null) {
+    message = (
+      <Form.Group>
+        <Form.Label>{error}</Form.Label>
+      </Form.Group>
+    );
+  } else {
+    message = <></>;
+  }
+
   return (
     <>
       <TitleComponent title="Đăng nhập" />
@@ -28,9 +61,8 @@ export default function LoginForm(props) {
             onChange={handlePasswordChange}
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Đăng nhập
-        </Button>
+        {message}
+        {buttonLogin}
       </Form>
     </>
   );

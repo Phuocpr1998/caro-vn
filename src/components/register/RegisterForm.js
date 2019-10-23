@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { Form, Button, Image } from 'react-bootstrap';
 import logo from '../../content/logo.png';
 import TitleComponent from '../title/TitleComponent';
@@ -13,14 +12,8 @@ export default function RegisterForm(props) {
     handlePasswordChange,
     handleRePasswordChange,
     isRequest,
-    error,
-    requestDone
+    error
   } = props;
-
-  // redirect to login page
-  if (requestDone) {
-    return <Redirect to="/login" />;
-  }
 
   let button;
   if (isRequest) {

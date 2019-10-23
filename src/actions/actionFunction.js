@@ -26,12 +26,13 @@ export function login(user) {
         email: user.email,
         password: user.password
       })
-    })
-      .then(
-        response => response.json(),
-        error => dispatch(requestPostLoginError(error))
-      )
-      .then(json => dispatch(requestPostLoginDone(json)));
+    }).then(
+      response =>
+        response.status !== 200
+          ? dispatch(requestPostLoginError('Username or password incorrect'))
+          : response.json().then(json => dispatch(requestPostLoginDone(json))),
+      error => dispatch(requestPostLoginError(error))
+    );
   };
 }
 
@@ -74,11 +75,16 @@ export function getProfile(token) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
-    })
-      .then(
-        response => response.json(),
-        error => dispatch(requestGetProfileInfoError(error))
-      )
-      .then(json => dispatch(requestGetProfileInfoDone(json)));
+    }).then(
+      response =>
+        response.status !== 200
+          ? response
+              .json()
+              .then(err => dispatch(requestGetProfileInfoError(err)))
+          : response
+              .json()
+              .then(json => dispatch(requestGetProfileInfoDone(json))),
+      error => dispatch(requestGetProfileInfoError(error))
+    );
   };
 }

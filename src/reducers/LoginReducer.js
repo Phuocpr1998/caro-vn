@@ -3,12 +3,15 @@ const LoginReducer = (
     user: {
       email: '',
       password: ''
-    }
+    },
+    isRequest: false,
+    error: null,
+    requestDone: false
   },
   action
 ) => {
   switch (action.type) {
-    case 'LOGIN_USERNAME_CHANGE':
+    case 'LOGIN_EMAIL_CHANGE':
       return {
         ...state,
         user: {
@@ -23,6 +26,28 @@ const LoginReducer = (
           ...state.user,
           password: action.password
         }
+      };
+    case 'REQUEST_LOGIN':
+      return {
+        ...state,
+        isRequest: true,
+        error: null,
+        requestDone: false
+      };
+    case 'REQUEST_LOGIN_DONE':
+      return {
+        ...state,
+        isRequest: false,
+        error: null,
+        requestDone: true,
+        token: action.tokenInfo.token
+      };
+    case 'REQUEST_LOGIN_FAIL':
+      return {
+        ...state,
+        isRequest: false,
+        error: action.error,
+        requestDone: false
       };
     default:
       return state;

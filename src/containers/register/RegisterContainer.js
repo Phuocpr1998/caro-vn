@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import RegisterForm from '../../components/register/RegisterForm';
 import { register } from '../../actions/actionFunction';
@@ -57,6 +58,11 @@ class RegisterContainer extends React.Component {
 
   render() {
     const { isRequest, error, requestDone } = this.props;
+    // redirect to login page
+    if (requestDone) {
+      return <Redirect to="/login" />;
+    }
+
     return (
       <RegisterForm
         handleSubmit={e => this.handleSubmit(e)}

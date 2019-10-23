@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginForm from '../../components/login/LoginForm';
 import { emailLoginChange, passwordLoginChange } from '../../actions';
@@ -26,11 +27,21 @@ class LoginContainer extends React.Component {
   }
 
   render() {
+    const { isRequest, error, requestDone, token } = this.props;
+
+    // redirect to home page
+    if (requestDone) {
+      localStorage.setItem('userToken', token);
+      return <Redirect to="/" />;
+    }
+
     return (
       <LoginForm
         handleSubmit={e => this.handleSubmit(e)}
         handleEmailChange={e => this.handleEmailChange(e)}
         handlePasswordChange={e => this.handlePasswordChange(e)}
+        isRequest={isRequest}
+        error={error}
       />
     );
   }
