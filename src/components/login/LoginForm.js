@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Button, Image } from 'react-bootstrap';
 import logo from '../../content/logo.png';
+import '../../content/login_form.css';
 import TitleComponent from '../title/TitleComponent';
 
 export default function LoginForm(props) {
@@ -41,29 +42,36 @@ export default function LoginForm(props) {
   return (
     <>
       <TitleComponent title="Đăng nhập" />
-      <div className="text-center">
-        <Image src={logo} thumbnail />
+      <div className="login_form">
+        <div className="text-center">
+          <Image src={logo} thumbnail />
+        </div>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Địa chỉ email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Nhập email"
+              onChange={handleEmailChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Mật khẩu</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Nhập mật khẩu"
+              onChange={handlePasswordChange}
+            />
+          </Form.Group>
+          {message}
+          <div className="button_group">
+            {buttonLogin}
+            <Button variant="danger" type="button">
+              Đăng ký tài khoản
+            </Button>
+          </div>
+        </Form>
       </div>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Địa chỉ email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Nhập email"
-            onChange={handleEmailChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Mật khẩu</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Nhập mật khẩu"
-            onChange={handlePasswordChange}
-          />
-        </Form.Group>
-        {message}
-        {buttonLogin}
-      </Form>
     </>
   );
 }
