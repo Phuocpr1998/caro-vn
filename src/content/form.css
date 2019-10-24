@@ -1,13 +1,18 @@
-.login_form {
+.form {
   width: 30%;
   margin: auto;
 }
 
-.login_form .button_group {
+.form .button_group {
   display: flex;
   justify-content: center;
 }
 
-.login_form .button_group button {
+.form .button_group button {
   margin: 5px !important;
+}
+
+.form .link {
+  text-decoration: none;
+  color: white;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Form, Button, Image } from 'react-bootstrap';
 import logo from '../../content/logo.png';
 import '../../content/form.css';
@@ -45,7 +46,7 @@ export default function RegisterForm(props) {
   return (
     <>
       <TitleComponent title="Đăng ký tài khoản" />
-      <div className="login_form">
+      <div className="form">
         <div className="text-center">
           <Image src={logo} thumbnail />
         </div>
@@ -99,7 +100,9 @@ export default function RegisterForm(props) {
           <div className="button_group">
             {button}
             <Button variant="success" type="button">
-              Đăng nhập
+              <Link className="link" to="/login">
+                Đăng nhập
+              </Link>
             </Button>
           </div>
         </Form>
