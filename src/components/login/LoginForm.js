@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Button, Image } from 'react-bootstrap';
 import logo from '../../content/logo.png';
-import '../../content/login_form.css';
+import '../../content/form.css';
 import TitleComponent from '../title/TitleComponent';
 
 export default function LoginForm(props) {
