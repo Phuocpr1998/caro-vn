@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Image } from 'react-bootstrap';
+import HostAPI from '../../contains/index';
 import logo from '../../content/logo.png';
 import '../../content/form.css';
 import TitleComponent from '../title/TitleComponent';
@@ -72,6 +73,19 @@ export default function LoginForm(props) {
                 Đăng ký tài khoản
               </Link>
             </Button>
+          </div>
+          <div className="button_group">
+            <a href={`${HostAPI}/user/login-google`} className="btn btn-danger">
+              <i className="fa fa-google" /> Đăng nhập Google
+            </a>
+          </div>
+          <div className="button_group">
+            <a
+              href={`${HostAPI}/user/login-facebook`}
+              className="btn btn-primary"
+            >
+              <i className="fa fa-facebook" /> Đăng nhập Facebook
+            </a>
           </div>
         </Form>
       </div>
