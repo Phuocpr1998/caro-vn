@@ -7,11 +7,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './content/index.css';
 // eslint-disable-next-line import/imports-first
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Game from './components/gameplay/Game';
+import GameContainer from './containers/gameplay/GameContainer';
 import rootReducer from './reducers';
 import LoginContainer from './containers/login/LoginContainer';
 import RegisterContainer from './containers/register/RegisterContainer';
 import HomeContainer from './containers/home/HomeContainer';
+import AccountContainer from './containers/account/AccountContainer';
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
@@ -26,8 +27,14 @@ ReactDOM.render(
           <RegisterContainer />
         </Route>
         <Route path="/play">
-          <Game />
+          <GameContainer />
         </Route>
+        <Route
+          path="/social-auth/:token"
+          render={({ match }) => (
+            <AccountContainer token={match.params.token} />
+          )}
+        />
         <Route path="/">
           <HomeContainer />
         </Route>
