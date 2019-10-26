@@ -62,6 +62,9 @@ ul {
 .game {
   display: flex;
   flex-direction: row;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .game-info {
@@ -72,28 +75,30 @@ ul {
 
 .game-title {
   color: blue;
-  margin-left: 20px;
+  text-align: center;
 }
 
 .game-history {
-  margin-left: 50px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.game-history ul {
-  list-style: none;
+.game-board {
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.game-history li {
+.game-history .history {
   margin-top: 10px;
   font-weight: bold;
   cursor: pointer;
 }
 
-.game-history li:hover {
+.game-history .history:hover {
   color: red;
 }
 
-.game-history .li-select {
+.game-history .history-select {
   background: snow;
   color: blue;
 }
@@ -102,6 +107,8 @@ ul {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .game-history button {
@@ -112,6 +119,7 @@ ul {
 }
 
 .game-history .history-content {
-  height: 600px;
+  max-height: 300px;
+  min-width: 400px;
   overflow: auto;
 }

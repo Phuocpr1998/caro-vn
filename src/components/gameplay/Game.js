@@ -5,7 +5,7 @@ import HistoryListContainer from '../../containers/gameplay/HistoryListContainer
 
 function Game() {
   return (
-    <div>
+    <>
       <h3 className="game-title">Game caro việt nam</h3>
       <div className="game">
         <div className="game-board">
@@ -13,7 +13,7 @@ function Game() {
         </div>
         <HistoryListContainer />
       </div>
-    </div>
+    </>
   );
 }
 
