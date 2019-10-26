@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Game from '../../components/gameplay/Game';
+import TilteComponent from '../../components/title/TitleComponent';
 import { getProfile } from '../../actions/actionFunction';
 
 const mapStateToProps = state => ({
@@ -20,7 +21,12 @@ class GameContainer extends React.Component {
   }
 
   render() {
-    return <Game />;
+    return (
+      <>
+        <TilteComponent title="Game caro online số một việt nam" />
+        <Game />
+      </>
+    );
   }
 }
 

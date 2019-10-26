@@ -35,9 +35,17 @@ ul {
   width: 34px;
 }
 
+.playerX {
+  color: blue !important;
+}
+
+.playerO {
+  color: red !important;
+}
+
 .square-win {
-  background: #fff;
-  color: blue;
+  background: blue;
+  color: white;
   border: 1px solid #999;
   float: left;
   font-size: 24px;
