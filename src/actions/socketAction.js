@@ -29,7 +29,9 @@ export function connectToSocketServer() {
   // eslint-disable-next-line func-names
   return function(dispatch) {
     const socketClient = socketIOClient(SocketServer);
-    socketClient.on('disconnect', data => console.log('disconnect', data));
+    socketClient.on('partner_disconnected', () =>
+      dispatch(receiverMessageChat('Đối thủ đã thoát'))
+    );
     socketClient.on('join_room', data => dispatch(findRoomSuccess(data)));
     socketClient.on('message_chat', data =>
       dispatch(receiverMessageChat(data))

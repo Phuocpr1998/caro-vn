@@ -2,9 +2,22 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Image } from 'react-bootstrap';
 
 import '../../content/scrollbar.css';
+
+function getItemMessage(message) {
+  if (message.people !== undefined && message.people !== null) {
+    console.log(message);
+    return (
+      <>
+        <Image rounded src={message.people.photo} />
+        {message.value}
+      </>
+    );
+  }
+  return <>{message.value}</>;
+}
 
 function ChatBox({
   messages,
@@ -21,7 +34,7 @@ function ChatBox({
         <div className="message-content scrollbar scrollbar-primary">
           <ul>
             {messages.map((value, index) => (
-              <li key={index}>{value.value}</li>
+              <li key={index}>{getItemMessage(value)}</li>
             ))}
           </ul>
         </div>

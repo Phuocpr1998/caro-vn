@@ -407,7 +407,7 @@ const GameReducer = (
       return {
         ...state,
         findRoom: false,
-        userPlayer: action.userPlayer
+        userPlayer: action.userPlayer.player
       };
     }
     default:
