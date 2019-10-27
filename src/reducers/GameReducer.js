@@ -377,7 +377,9 @@ const GameReducer = (
       };
     }
     case 'SOCKET_RECEIVER_CHAT_MESSAGE': {
-      const { messages, userPlayer } = state;
+      const { userPlayer } = state;
+      let { messages } = state;
+      messages = messages.slice();
       messages.push({ value: action.message, people: userPlayer });
       return {
         ...state,
