@@ -18,6 +18,15 @@ export const handleOnButtonSortClick = () => ({
   type: 'SORT_HISTORY'
 });
 
+export const handleMesageFormSubmit = () => ({
+  type: 'MESSAGE_SEND'
+});
+
+export const messageChatChange = message => ({
+  type: 'MESSAGE_CHANGE',
+  message
+});
+
 export const emailLoginChange = email => ({
   type: 'LOGIN_EMAIL_CHANGE',
   email

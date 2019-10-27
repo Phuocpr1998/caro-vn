@@ -2,6 +2,7 @@ import React from 'react';
 import '../../content/Game.css';
 import BoardContainer from '../../containers/gameplay/BoardContainer';
 import HistoryListContainer from '../../containers/gameplay/HistoryListContainer';
+import ChatBoxContainer from '../../containers/gameplay/ChatBoxContainer';
 
 function Game() {
   return (
@@ -11,7 +12,10 @@ function Game() {
         <div className="game-board">
           <BoardContainer size={20} />
         </div>
-        <HistoryListContainer />
+        <div>
+          <HistoryListContainer />
+          <ChatBoxContainer />
+        </div>
       </div>
     </>
   );

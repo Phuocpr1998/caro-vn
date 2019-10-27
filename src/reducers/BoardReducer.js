@@ -247,7 +247,9 @@ const BoardReducer = (
     history: [],
     indexHistorySelect: -1,
     sortDecreaseHistory: false,
-    winPositions: []
+    winPositions: [],
+    messages: [],
+    messageChat: ''
   },
   action
 ) => {
@@ -342,6 +344,23 @@ const BoardReducer = (
         squares,
         indexHistorySelect: action.index,
         xIsNext: history[action.index].value !== 'X'
+      };
+    }
+    case 'MESSAGE_CHANGE':
+      return {
+        ...state,
+        messageChat: action.message
+      };
+    case 'MESSAGE_SEND': {
+      const { messages, messageChat } = state;
+      if (messageChat === undefined || messageChat === '') {
+        return state;
+      }
+      messages.push({ value: messageChat });
+      return {
+        ...state,
+        messages,
+        messageChat: ''
       };
     }
     default:

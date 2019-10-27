@@ -89,6 +89,7 @@ ul {
 .game-history {
   margin-left: auto;
   margin-right: auto;
+  height: 50%;
 }
 
 .game-board {
@@ -111,12 +112,11 @@ ul {
   color: blue;
 }
 
-.game-history .title {
+.title {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: auto;
-  margin-bottom: auto;
+  border-style: groove;
 }
 
 .game-history button {
@@ -130,4 +130,35 @@ ul {
   max-height: 300px;
   min-width: 400px;
   overflow: auto;
+}
+
+.game-message-chat {
+  height: 35%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-message-chat .message-content {
+  max-height: 180px;
+  min-width: 400px;
+  border: olive;
+  overflow: auto;
+}
+
+.message-content ul {
+  text-decoration: none;
+  list-style: none;
+}
+
+.message-input {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+}
+
+.message-input .button-send {
+  margin-left: 10px;
+  margin-right: auto;
 }
