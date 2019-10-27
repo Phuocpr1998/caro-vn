@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Image } from 'react-bootstrap';
-import HostAPI from '../../contains/index';
+import { HostAPI } from '../../config/index';
 import logo from '../../content/logo.png';
 import '../../content/form.css';
 import TitleComponent from '../title/TitleComponent';

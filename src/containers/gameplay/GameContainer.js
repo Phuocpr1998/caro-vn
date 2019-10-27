@@ -1,26 +1,34 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Game from '../../components/gameplay/Game';
 import TilteComponent from '../../components/title/TitleComponent';
 import { getProfile } from '../../actions/actionFunction';
+import { connectToSocketServer } from '../../actions/socketAction';
 
 const mapStateToProps = state => ({
-  ...state.BoardReducer,
-  HomeReducer: { ...state.HomeReducer }
+  ...state.GameReducer,
+  user: state.ProfileReducer.user,
+  error: state.ProfileReducer.error
 });
 
 class GameContainer extends React.Component {
   componentDidMount() {
     const { dispatch, isRequest, user } = this.props;
-    console.log(this.props);
-
-    if (user === null || user === undefined) {
-      console.log({ dispatch, isRequest, user });
+    if ((user === null || user === undefined) && !isRequest) {
       dispatch(getProfile());
+    } else {
+      dispatch(connectToSocketServer());
     }
+    dispatch(connectToSocketServer());
   }
 
   render() {
+    const { error } = this.props;
+    if (error) {
+      return <Redirect to="/login" />;
+    }
+
     return (
       <>
         <TilteComponent title="Game caro online số một việt nam" />

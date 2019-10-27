@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch';
+
 import {
   requestPostLogin,
   requestPostLoginDone,
@@ -10,7 +11,7 @@ import {
   requestGetProfileInfoError,
   requestGetProfileInfoDone
 } from './index';
-import HostAPI from '../contains';
+import { HostAPI } from '../config';
 
 export function login(user) {
   // eslint-disable-next-line func-names

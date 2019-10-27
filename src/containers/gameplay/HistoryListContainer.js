@@ -4,7 +4,7 @@ import HistoryList from '../../components/gameplay/HistoryList';
 import { handleOnButtonSortClick, handleOnHistoryClick } from '../../actions';
 
 const mapStateToProps = state => ({
-  ...state.BoardReducer
+  ...state.GameReducer
 });
 
 class HistoryListContainer extends React.Component {

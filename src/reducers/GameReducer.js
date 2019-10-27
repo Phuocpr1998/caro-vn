@@ -239,7 +239,7 @@ function checkWinner(squares, i, j, person) {
   return { isWin: false, winPositions: [] };
 }
 
-const BoardReducer = (
+const GameReducer = (
   state = {
     squares: Array(400).fill(null),
     xIsNext: true,
@@ -249,7 +249,10 @@ const BoardReducer = (
     sortDecreaseHistory: false,
     winPositions: [],
     messages: [],
-    messageChat: ''
+    messageChat: '',
+    socketClient: null,
+    findRoom: false,
+    userPlayer: null
   },
   action
 ) => {
@@ -346,16 +349,20 @@ const BoardReducer = (
         xIsNext: history[action.index].value !== 'X'
       };
     }
-    case 'MESSAGE_CHANGE':
+    case 'MESSAGE_CHANGE': {
+      const { socketClient } = state;
+      socketClient.emit('message_typing');
       return {
         ...state,
         messageChat: action.message
       };
+    }
     case 'MESSAGE_SEND': {
-      const { messages, messageChat } = state;
+      const { messages, messageChat, socketClient } = state;
       if (messageChat === undefined || messageChat === '') {
         return state;
       }
+      socketClient.emit('message_chat', messageChat);
       messages.push({ value: messageChat });
       return {
         ...state,
@@ -363,9 +370,47 @@ const BoardReducer = (
         messageChat: ''
       };
     }
+    case 'SOCKET_UPDATE_CLIENT': {
+      return {
+        ...state,
+        socketClient: action.socket
+      };
+    }
+    case 'SOCKET_RECEIVER_CHAT_MESSAGE': {
+      const { messages } = state;
+      messages.push({ value: action.message, people: action.people });
+      return {
+        ...state,
+        messages
+      };
+    }
+    case 'SOCKET_FIND_ROOM': {
+      const { socketClient } = state;
+      socketClient.emit('find_room', action.user);
+      return {
+        ...state,
+        findRoom: true
+      };
+    }
+    case 'SOCKET_FIND_ROOM_FAILED': {
+      const { socketClient } = state;
+      socketClient.emit('find_room_failed');
+      return {
+        ...state,
+        findRoom: false,
+        userPlayer: null
+      };
+    }
+    case 'SOCKET_FIND_ROOM_SUCCESS': {
+      return {
+        ...state,
+        findRoom: false,
+        userPlayer: action.userPlayer
+      };
+    }
     default:
       return state;
   }
 };
 
-export default BoardReducer;
+export default GameReducer;

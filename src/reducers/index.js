@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import BoardReducer from './BoardReducer';
+import GameReducer from './GameReducer';
 import LoginReducer from './LoginReducer';
 import RegisterReducer from './RegisterReducer';
 import ProfileReducer from './ProfileReducer';
 
 export default combineReducers({
-  BoardReducer,
+  GameReducer,
   LoginReducer,
   RegisterReducer,
   ProfileReducer

@@ -7,6 +7,7 @@ function Board({
   xIsNext,
   winPositions,
   resetGame,
+  findRoom,
   squares,
   handleClick
 }) {
@@ -44,6 +45,9 @@ function Board({
         <div className="status">{status}</div>
         <button type="button" className="status" onClick={() => resetGame()}>
           Chơi lại
+        </button>
+        <button type="button" className="status" onClick={() => findRoom()}>
+          Tìm người chơi
         </button>
       </div>
       {rows.map((row, id) => (

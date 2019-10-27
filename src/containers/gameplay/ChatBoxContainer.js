@@ -4,7 +4,7 @@ import { handleMesageFormSubmit, messageChatChange } from '../../actions';
 import ChatBox from '../../components/gameplay/ChatBox';
 
 const mapStateToProps = state => ({
-  ...state.BoardReducer
+  ...state.GameReducer
 });
 
 class ChatBoxContainer extends React.Component {
