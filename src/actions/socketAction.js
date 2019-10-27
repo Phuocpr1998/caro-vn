@@ -20,9 +20,8 @@ export const updateSocketClient = socket => ({
   socket
 });
 
-export const receiverMessageChat = (people, message) => ({
+export const receiverMessageChat = message => ({
   type: 'SOCKET_RECEIVER_CHAT_MESSAGE',
-  people,
   message
 });
 
@@ -31,8 +30,10 @@ export function connectToSocketServer() {
   return function(dispatch) {
     const socketClient = socketIOClient(SocketServer);
     socketClient.on('disconnect', data => console.log('disconnect', data));
-    socketClient.on('join_room', data => console.log('join_room', data));
-    socketClient.on('message_chat', data => console.log('message_chat', data));
+    socketClient.on('join_room', data => dispatch(findRoomSuccess(data)));
+    socketClient.on('message_chat', data =>
+      dispatch(receiverMessageChat(data))
+    );
     socketClient.on('message_typing', data =>
       console.log('message_typing', data)
     );

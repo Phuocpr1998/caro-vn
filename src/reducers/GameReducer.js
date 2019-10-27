@@ -363,7 +363,7 @@ const GameReducer = (
         return state;
       }
       socketClient.emit('message_chat', messageChat);
-      messages.push({ value: messageChat });
+      messages.push({ value: messageChat, people: null });
       return {
         ...state,
         messages,
@@ -377,8 +377,8 @@ const GameReducer = (
       };
     }
     case 'SOCKET_RECEIVER_CHAT_MESSAGE': {
-      const { messages } = state;
-      messages.push({ value: action.message, people: action.people });
+      const { messages, userPlayer } = state;
+      messages.push({ value: action.message, people: userPlayer });
       return {
         ...state,
         messages
