@@ -144,12 +144,14 @@ ul {
   max-height: 180px;
   min-width: 400px;
   border: olive;
-  overflow: auto;
+  overflow-x: auto;
 }
 
 .message-content ul {
   text-decoration: none;
   list-style: none;
+  padding: 0px;
+  margin: 0px;
 }
 
 .message-input {
@@ -161,4 +163,41 @@ ul {
 .message-input .button-send {
   margin-left: 10px;
   margin-right: auto;
+}
+
+.message-content .message-item-0 {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.message-content .message-item-1 {
+  display: flex;
+  flex-direction: row;
+}
+
+.message-content .message-item {
+  max-width: 250px;
+  display: flex;
+  overflow-wrap: break-word;
+  flex-direction: row;
+}
+
+.message-item-img {
+  border-radius: 50%;
+}
+.message-0 {
+  max-width: 100%;
+  border-radius: 25px;
+  background: #3578e5;
+  color: white;
+  padding: 6px 10px;
+}
+
+.message-1 {
+  max-width: 100%;
+  border-radius: 25px;
+  background: gray;
+  color: white;
+  margin-left: 5px;
+  padding: 6px 10px;
 }
