@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import HomeComponent from '../../components/home/HomeComponent';
 import { requestLogout, requestLogoutDone } from '../../actions';
 import { getProfile } from '../../actions/actionFunction';
+import WaitingPage from '../../components/layout/WaitingPage';
 
 const mapStateToProps = state => ({
   ...state.ProfileReducer
@@ -33,7 +34,7 @@ class HomeContainer extends React.Component {
     }
 
     if (user === null || !requestDone) {
-      return <></>;
+      return <WaitingPage />;
     }
 
     return (

@@ -5,6 +5,7 @@ import Game from '../../components/gameplay/Game';
 import TilteComponent from '../../components/title/TitleComponent';
 import { getProfile } from '../../actions/actionFunction';
 import { connectToSocketServer } from '../../actions/socketAction';
+import WaitingPage from '../../components/layout/WaitingPage';
 
 const mapStateToProps = state => ({
   ...state.GameReducer,
@@ -29,7 +30,7 @@ class GameContainer extends React.Component {
       return <Redirect to="/login" />;
     }
     if (user === null || user === undefined) {
-      return <></>;
+      return <WaitingPage />;
     }
     return (
       <>
