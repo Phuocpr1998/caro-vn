@@ -405,10 +405,17 @@ const GameReducer = (
       };
     }
     case 'SOCKET_FIND_ROOM_SUCCESS': {
+      let { messages } = state;
+      messages = messages.slice();
+      messages.push({
+        value: 'Đối thủ đã vào phòng',
+        people: action.userPlayer.player
+      });
       return {
         ...state,
         findRoom: false,
-        userPlayer: action.userPlayer.player
+        userPlayer: action.userPlayer.player,
+        messages
       };
     }
     default:
