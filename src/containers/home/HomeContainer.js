@@ -2,11 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HomeComponent from '../../components/home/HomeComponent';
-import {
-  requestPlayGame,
-  requestLogout,
-  requestLogoutDone
-} from '../../actions';
+import { requestLogout, requestLogoutDone } from '../../actions';
 import { getProfile } from '../../actions/actionFunction';
 
 const mapStateToProps = state => ({
@@ -23,11 +19,6 @@ class HomeContainer extends React.Component {
     }
   }
 
-  handleButtonPlayGame() {
-    const { dispatch } = this.props;
-    dispatch(requestPlayGame());
-  }
-
   handleButtonLogout() {
     const { dispatch } = this.props;
     localStorage.removeItem('userToken');
@@ -35,21 +26,10 @@ class HomeContainer extends React.Component {
   }
 
   render() {
-    const {
-      user,
-      error,
-      requestDone,
-      playgame,
-      isRequest,
-      logout
-    } = this.props;
+    const { user, error, requestDone, isRequest, logout } = this.props;
 
     if ((!isRequest && error !== null) || logout) {
       return <Redirect to="/login" />;
-    }
-
-    if (playgame) {
-      return <Redirect to="/play" />;
     }
 
     if (user === null || !requestDone) {
@@ -59,7 +39,6 @@ class HomeContainer extends React.Component {
     return (
       <HomeComponent
         user={user}
-        handleButtonPlayGame={() => this.handleButtonPlayGame()}
         handleButtonLogout={() => this.handleButtonLogout()}
       />
     );

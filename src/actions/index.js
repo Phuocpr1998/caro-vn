@@ -90,10 +90,6 @@ export const requestPostRegisterError = error => ({
   error
 });
 
-export const requestPlayGame = () => ({
-  type: 'PROFILE_PLAYGAME'
-});
-
 export const requestLogout = () => ({
   type: 'PROFILE_LOGOUT'
 });
@@ -114,4 +110,8 @@ export const requestGetProfileInfoDone = user => ({
 export const requestGetProfileInfoError = error => ({
   type: 'REQUEST_GET_PROFILE_FAIL',
   error
+});
+
+export const playWithMachine = () => ({
+  type: 'PLAY_WITH_MACHINE'
 });

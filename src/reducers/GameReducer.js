@@ -251,8 +251,9 @@ const GameReducer = (
     messages: [],
     messageChat: '',
     socketClient: null,
-    findRoom: false,
-    userPlayer: null
+    findingRoom: false,
+    userPlayer: null,
+    playType: 0 // 0 is not select, 1 play with other player, 2 play with machine
   },
   action
 ) => {
@@ -392,7 +393,8 @@ const GameReducer = (
       socketClient.emit('find_room', action.user);
       return {
         ...state,
-        findRoom: true
+        findingRoom: true,
+        playType: 1
       };
     }
     case 'SOCKET_FIND_ROOM_FAILED': {
@@ -400,8 +402,9 @@ const GameReducer = (
       socketClient.emit('find_room_failed');
       return {
         ...state,
-        findRoom: false,
-        userPlayer: null
+        findingRoom: false,
+        userPlayer: null,
+        playType: 0
       };
     }
     case 'SOCKET_FIND_ROOM_SUCCESS': {
@@ -413,9 +416,33 @@ const GameReducer = (
       });
       return {
         ...state,
-        findRoom: false,
+        findingRoom: false,
         userPlayer: action.userPlayer.player,
         messages
+      };
+    }
+    case 'SOCKET_DISCONNECT': {
+      let { messages } = state;
+      const { user } = state;
+      messages = messages.slice();
+      messages.push({
+        value: 'Ngắt kết nối với máy chủ',
+        people: user
+      });
+      return {
+        ...state,
+        findingRoom: false,
+        userPlayer: null,
+        messages,
+        playType: 0
+      };
+    }
+    case 'PLAY_WITH_MACHINE': {
+      return {
+        ...state,
+        findingRoom: false,
+        userPlayer: null,
+        playType: 2
       };
     }
     default:

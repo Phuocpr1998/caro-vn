@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import FindMatch from '../../../components/gameplay/dialog/FindMatch';
-import { findRoom } from '../../../actions/socketAction';
+import { findRoom, findRoomFailed } from '../../../actions/socketAction';
+import { playWithMachine } from '../../../actions';
 
 const mapStateToProps = state => ({
   ...state.GameReducer,
@@ -37,20 +39,34 @@ class FindMatchContainer extends React.Component {
   handleFightWithOther() {
     const { dispatch, user } = this.props;
     dispatch(findRoom(user));
+    setTimeout(() => {
+      const { userPlayer } = this.props;
+      if (userPlayer === null || userPlayer === undefined) {
+        dispatch(findRoomFailed());
+      }
+    }, 15000);
   }
 
   handleFightWithMachine() {
-    const { dispatch, user } = this.props;
-    dispatch(findRoom(user));
+    const { dispatch } = this.props;
+    dispatch(playWithMachine());
   }
 
   render() {
     const { show } = this.state;
-    const { user } = this.props;
+    const { user, userPlayer, playType, findingRoom } = this.props;
+    if (
+      !show &&
+      (userPlayer === null || userPlayer === undefined) &&
+      playType === 0
+    ) {
+      return <Redirect to="/" />;
+    }
     return (
       <FindMatch
         show={show}
         user={user}
+        findingRoom={findingRoom}
         handleFightWithOther={() => this.handleFightWithOther()}
         handleFightWithMachine={() => this.handleFightWithMachine()}
         handleClose={() => this.handleClose()}

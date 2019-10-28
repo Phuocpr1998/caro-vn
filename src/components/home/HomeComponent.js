@@ -1,10 +1,11 @@
 import React from 'react';
 import { Card, ListGroup, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import '../../content/form.css';
 import TitleComponent from '../title/TitleComponent';
 
 export default function HomeComponent(props) {
-  const { user, handleButtonPlayGame, handleButtonLogout } = props;
+  const { user, handleButtonLogout } = props;
   return (
     <>
       <TitleComponent title="Trang chủ - Game Caro Việt Nam" />
@@ -18,8 +19,10 @@ export default function HomeComponent(props) {
         </Card.Body>
         <Card.Footer className="button_group">
           <Card.Link className="mt-10">
-            <Button onClick={handleButtonPlayGame} variant="success">
-              Chơi Game
+            <Button variant="success">
+              <Link className="link" to="/play">
+                Chơi Game
+              </Link>
             </Button>
           </Card.Link>
           <Card.Link className="mt-10">

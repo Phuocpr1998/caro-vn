@@ -35,12 +35,6 @@ const ProfileReducer = (
         isRequest: false,
         logout: false
       };
-    case 'PROFILE_PLAYGAME':
-      return {
-        ...state,
-        playgame: true,
-        logout: false
-      };
     case 'PROFILE_LOGOUT':
       return {
         ...state,

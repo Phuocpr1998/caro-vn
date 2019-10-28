@@ -1,6 +1,10 @@
 import socketIOClient from 'socket.io-client';
 import { SocketServer } from '../config/index';
 
+export const disconnectToSocketServer = () => ({
+  type: 'SOCKET_DISCONNECT'
+});
+
 export const findRoom = user => ({
   type: 'SOCKET_FIND_ROOM',
   user
@@ -29,6 +33,7 @@ export function connectToSocketServer() {
   // eslint-disable-next-line func-names
   return function(dispatch) {
     const socketClient = socketIOClient(SocketServer);
+    socketClient.on('disconnect', () => dispatch(disconnectToSocketServer()));
     socketClient.on('partner_disconnected', () =>
       dispatch(receiverMessageChat('Đối thủ đã thoát'))
     );
