@@ -16,9 +16,11 @@ class FindMatchContainer extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     const { userPlayer } = this.props;
-    if (userPlayer !== null && userPlayer !== undefined) {
+    const { show } = this.state;
+    if (userPlayer !== null && userPlayer !== undefined && show) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         show: false
       });
