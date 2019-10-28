@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FindMatch from '../../../components/gameplay/dialog/FindMatch';
+import { findRoom } from '../../../actions/socketAction';
 
 const mapStateToProps = state => ({
   ...state.GameReducer,
@@ -15,11 +16,30 @@ class FindMatchContainer extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { userPlayer } = this.props;
+    if (userPlayer !== null && userPlayer !== undefined) {
+      this.setState({
+        show: false
+      });
+    }
+  }
+
   handleClose() {
     const { show } = this.state;
     this.setState({
       show: !show
     });
+  }
+
+  handleFightWithOther() {
+    const { dispatch, user } = this.props;
+    dispatch(findRoom(user));
+  }
+
+  handleFightWithMachine() {
+    const { dispatch, user } = this.props;
+    dispatch(findRoom(user));
   }
 
   render() {
@@ -29,6 +49,8 @@ class FindMatchContainer extends React.Component {
       <FindMatch
         show={show}
         user={user}
+        handleFightWithOther={() => this.handleFightWithOther()}
+        handleFightWithMachine={() => this.handleFightWithMachine()}
         handleClose={() => this.handleClose()}
       />
     );

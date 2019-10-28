@@ -3,7 +3,13 @@ import { Modal, Button } from 'react-bootstrap';
 import '../../../content/dialog.css';
 
 function FindMatch(props) {
-  const { show, handleClose, user } = props;
+  const {
+    show,
+    handleClose,
+    handleFightWithOther,
+    handleFightWithMachine,
+    user
+  } = props;
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -12,10 +18,10 @@ function FindMatch(props) {
         </Modal.Header>
         <Modal.Body>Bạn đã sẵn sàng {user.name} ?</Modal.Body>
         <Modal.Footer className="button-group-center">
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleFightWithOther}>
             Tìm đối thủ
           </Button>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleFightWithMachine}>
             Chơi với máy
           </Button>
         </Modal.Footer>
