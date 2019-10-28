@@ -14,7 +14,7 @@ function HistoryList({
   return (
     <div className="game-history">
       <div className="title">
-        <h5>Lịch sử đánh</h5>
+        <div> Lịch sử đánh </div>
         <button
           type="button"
           className="button"

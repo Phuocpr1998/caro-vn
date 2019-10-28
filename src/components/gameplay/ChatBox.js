@@ -41,9 +41,7 @@ function ChatBox({
   return (
     <>
       <div className="game-message-chat">
-        <div className="title">
-          <h5>Nhắn tin cho đối thủ</h5>
-        </div>
+        <div className="title">Nhắn tin cho đối thủ</div>
         <div className="message-content scrollbar scrollbar-primary">
           {messages.map((value, index) => getItemMessage(index, value))}
         </div>

@@ -1,0 +1,9 @@
+.modal-title {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.button-group-center {
+  justify-content: center !important;
+}

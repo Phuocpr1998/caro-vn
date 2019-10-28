@@ -1,19 +1,7 @@
 import React from 'react';
 import Square from './Square';
 
-function Board({
-  size,
-  winner,
-  xIsNext,
-  winPositions,
-  resetGame,
-  findRoom,
-  squares,
-  handleClick
-}) {
-  const status = winner
-    ? `Người chiến thắng ${winner}`
-    : `Người chơi tiếp theo: ${xIsNext ? 'X' : 'O'}`;
+function Board({ size, winPositions, squares, handleClick }) {
   const rows = [size];
   const winPositionsSize = winPositions.length;
   for (let i = 0; i < size; i += 1) {
@@ -41,15 +29,6 @@ function Board({
 
   return (
     <div>
-      <div className="game-info">
-        <div className="status">{status}</div>
-        <button type="button" className="status" onClick={() => resetGame()}>
-          Chơi lại
-        </button>
-        <button type="button" className="status" onClick={() => findRoom()}>
-          Tìm người chơi
-        </button>
-      </div>
       {rows.map((row, id) => (
         // eslint-disable-next-line react/no-array-index-key
         <div className="board-row" key={id}>

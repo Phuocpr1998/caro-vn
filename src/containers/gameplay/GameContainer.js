@@ -24,11 +24,13 @@ class GameContainer extends React.Component {
   }
 
   render() {
-    const { error } = this.props;
+    const { error, user } = this.props;
     if (error) {
       return <Redirect to="/login" />;
     }
-
+    if (user === null || user === undefined) {
+      return <></>;
+    }
     return (
       <>
         <TilteComponent title="Game caro online số một việt nam" />

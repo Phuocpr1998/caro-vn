@@ -265,7 +265,8 @@ const GameReducer = (
         history: [],
         indexHistorySelect: -1,
         sortDecreaseHistory: false,
-        winPositions: []
+        winPositions: [],
+        messages: []
       };
     case 'ON_BOARD_CLICK': {
       const { squares, winner, sortDecreaseHistory, xIsNext } = state;
