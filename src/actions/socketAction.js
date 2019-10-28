@@ -44,6 +44,7 @@ export function connectToSocketServer() {
     socketClient.on('message_typing', data =>
       console.log('message_typing', data)
     );
+    socketClient.on('fight', data => console.log('fight', data));
     dispatch(updateSocketClient(socketClient));
   };
 }

@@ -253,7 +253,8 @@ const GameReducer = (
     socketClient: null,
     findingRoom: false,
     userPlayer: null,
-    playType: 0 // 0 is not select, 1 play with other player, 2 play with machine
+    playType: 0, // 0 is not select, 1 play with other player, 2 play with machine
+    Xplayer: 0 // 1 is user, 2 playerUser
   },
   action
 ) => {
@@ -270,7 +271,13 @@ const GameReducer = (
         messages: []
       };
     case 'ON_BOARD_CLICK': {
-      const { squares, winner, sortDecreaseHistory, xIsNext } = state;
+      const {
+        squares,
+        winner,
+        sortDecreaseHistory,
+        xIsNext,
+        socketClient
+      } = state;
       const size = Math.sqrt(squares.length);
       const { i, j } = action;
       let { history, indexHistorySelect } = state;
@@ -300,6 +307,8 @@ const GameReducer = (
           value: squares[i * size + j]
         });
       }
+      // send position to socket server
+      socketClient.emit('fight', { i, j });
 
       const value = squares[i * size + j];
       const result = checkWinner(squares, i, j, value);
@@ -404,7 +413,8 @@ const GameReducer = (
         ...state,
         findingRoom: false,
         userPlayer: null,
-        playType: 0
+        playType: 0,
+        Xplayer: 0
       };
     }
     case 'SOCKET_FIND_ROOM_SUCCESS': {
@@ -418,6 +428,7 @@ const GameReducer = (
         ...state,
         findingRoom: false,
         userPlayer: action.userPlayer.player,
+        Xplayer: action.userPlayer.XPlayer,
         messages
       };
     }
@@ -434,7 +445,8 @@ const GameReducer = (
         findingRoom: false,
         userPlayer: null,
         messages,
-        playType: 0
+        playType: 0,
+        Xplayer: 0
       };
     }
     case 'PLAY_WITH_MACHINE': {
@@ -442,7 +454,8 @@ const GameReducer = (
         ...state,
         findingRoom: false,
         userPlayer: null,
-        playType: 2
+        playType: 2,
+        Xplayer: 0
       };
     }
     default:
