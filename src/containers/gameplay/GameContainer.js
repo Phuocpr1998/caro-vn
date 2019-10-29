@@ -25,7 +25,7 @@ class GameContainer extends React.Component {
   }
 
   render() {
-    const { error, user } = this.props;
+    const { error, user, winner } = this.props;
     if (error) {
       return <Redirect to="/login" />;
     }
@@ -35,7 +35,7 @@ class GameContainer extends React.Component {
     return (
       <>
         <TilteComponent title="Game caro online số một việt nam" />
-        <Game />
+        <Game winner={winner} />
       </>
     );
   }

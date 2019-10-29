@@ -32,13 +32,11 @@ class BoardContainer extends React.Component {
   }
 
   render() {
-    const { winner, squares, xIsNext, winPositions, size } = this.props;
+    const { squares, winPositions, size } = this.props;
     return (
       <Board
         size={size}
         squares={squares}
-        winner={winner}
-        xIsNext={xIsNext}
         handleClick={(i, j) => this.handleClick(i, j)}
         resetGame={() => this.resetGame()}
         findRoom={() => this.findRoom()}

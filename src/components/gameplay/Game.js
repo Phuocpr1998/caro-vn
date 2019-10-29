@@ -4,11 +4,17 @@ import BoardContainer from '../../containers/gameplay/BoardContainer';
 import HistoryListContainer from '../../containers/gameplay/HistoryListContainer';
 import ChatBoxContainer from '../../containers/gameplay/ChatBoxContainer';
 import FindMatchContainer from '../../containers/gameplay/dialog/FindMatchContainer';
+import EndGameContainer from '../../containers/gameplay/dialog/EndGameContainer';
 import ControlButton from './ControlButton';
 
-function Game() {
+function Game({ winner }) {
+  let endGameDialog = <></>;
+  if (winner) {
+    endGameDialog = <EndGameContainer />;
+  }
   return (
     <>
+      {endGameDialog}
       <FindMatchContainer />
       <h3 className="game-title">Game caro việt nam</h3>
       <div className="game">

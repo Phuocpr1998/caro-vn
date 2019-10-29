@@ -261,13 +261,18 @@ const GameReducer = (
     case 'RESET_GAME':
       return {
         squares: Array(400).fill(null),
-        xIsNext: true,
         winner: null,
         history: [],
         indexHistorySelect: -1,
         sortDecreaseHistory: false,
         winPositions: [],
-        messages: []
+        messages: [],
+        messageChat: '',
+        socketClient: null,
+        findingRoom: false,
+        userPlayer: null,
+        playType: 0, // 0 is not select, 1 play with other player, 2 play with machine
+        Xplayer: 0 // 1 is user, 2 playerUser
       };
     case 'ON_BOARD_CLICK': {
       const {
