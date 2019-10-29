@@ -29,6 +29,12 @@ export const receiverMessageChat = message => ({
   message
 });
 
+export const receiverMovePosition = (i, j) => ({
+  type: 'ON_RECEIVER_MOVE',
+  i,
+  j
+});
+
 export function connectToSocketServer() {
   // eslint-disable-next-line func-names
   return function(dispatch) {
@@ -44,7 +50,9 @@ export function connectToSocketServer() {
     socketClient.on('message_typing', data =>
       console.log('message_typing', data)
     );
-    socketClient.on('fight', data => console.log('fight', data));
+    socketClient.on('fight', data =>
+      dispatch(receiverMovePosition(data.i, data.j))
+    );
     dispatch(updateSocketClient(socketClient));
   };
 }

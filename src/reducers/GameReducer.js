@@ -242,7 +242,6 @@ function checkWinner(squares, i, j, person) {
 const GameReducer = (
   state = {
     squares: Array(400).fill(null),
-    xIsNext: true,
     winner: null,
     history: [],
     indexHistorySelect: -1,
@@ -275,12 +274,20 @@ const GameReducer = (
         squares,
         winner,
         sortDecreaseHistory,
-        xIsNext,
+        Xplayer,
         socketClient
       } = state;
+      let { history, indexHistorySelect } = state;
+
+      if (
+        (history.length % 2 === 1 && Xplayer === 1) ||
+        (history.length % 2 === 0 && Xplayer === 2)
+      ) {
+        return state;
+      }
+
       const size = Math.sqrt(squares.length);
       const { i, j } = action;
-      let { history, indexHistorySelect } = state;
       if (squares[i * size + j] || winner) return state;
       if (indexHistorySelect !== -1) {
         if (sortDecreaseHistory) {
@@ -291,7 +298,7 @@ const GameReducer = (
         indexHistorySelect = -1;
       }
 
-      squares[i * size + j] = xIsNext ? 'X' : 'O';
+      squares[i * size + j] = Xplayer === 1 ? 'X' : 'O';
       if (sortDecreaseHistory) {
         history.unshift({
           idx: history.length,
@@ -317,7 +324,57 @@ const GameReducer = (
         winner: result.isWin ? value : null,
         winPositions: result.winPositions,
         squares,
-        xIsNext: !xIsNext,
+        history,
+        indexHistorySelect
+      };
+    }
+    case 'ON_RECEIVER_MOVE': {
+      const { squares, winner, sortDecreaseHistory, Xplayer } = state;
+      let { history, indexHistorySelect } = state;
+
+      if (
+        (history.length % 2 === 0 && Xplayer === 1) ||
+        (history.length % 2 === 1 && Xplayer === 2)
+      ) {
+        return state;
+      }
+
+      const size = Math.sqrt(squares.length);
+      const { i, j } = action;
+      if (squares[i * size + j] || winner) return state;
+      if (indexHistorySelect !== -1) {
+        if (sortDecreaseHistory) {
+          history = history.slice(indexHistorySelect);
+        } else {
+          history = history.slice(0, indexHistorySelect + 1);
+        }
+        indexHistorySelect = -1;
+      }
+
+      squares[i * size + j] = Xplayer === 2 ? 'X' : 'O';
+      if (sortDecreaseHistory) {
+        history.unshift({
+          idx: history.length,
+          i,
+          j,
+          value: squares[i * size + j]
+        });
+      } else {
+        history.push({
+          idx: history.length,
+          i,
+          j,
+          value: squares[i * size + j]
+        });
+      }
+
+      const value = squares[i * size + j];
+      const result = checkWinner(squares, i, j, value);
+      return {
+        ...state,
+        winner: result.isWin ? value : null,
+        winPositions: result.winPositions,
+        squares,
         history,
         indexHistorySelect
       };
