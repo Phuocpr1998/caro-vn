@@ -9,8 +9,12 @@ import ControlButton from './ControlButton';
 
 function Game({ winner, partnerDisconnect, disconnectToServer }) {
   let endGameDialog = <></>;
-  if (winner || partnerDisconnect || disconnectToServer) {
-    endGameDialog = <EndGameContainer />;
+  if (winner) {
+    endGameDialog = <EndGameContainer message="Trận đấu kết thúc" />;
+  } else if (partnerDisconnect) {
+    endGameDialog = <EndGameContainer message="Đối thủ đã thoát" />;
+  } else if (disconnectToServer) {
+    endGameDialog = <EndGameContainer message="Mất kết nối tới máy chủ" />;
   }
   return (
     <>

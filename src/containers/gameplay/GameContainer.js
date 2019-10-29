@@ -32,7 +32,7 @@ class GameContainer extends React.Component {
       disconnectToServer,
       partnerDisconnect
     } = this.props;
-    console.log({ error, user, winner, disconnectToServer, partnerDisconnect });
+
     if (error) {
       return <Redirect to="/login" />;
     }

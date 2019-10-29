@@ -261,8 +261,6 @@ const GameReducer = (
 ) => {
   switch (action.type) {
     case 'RESET_GAME': {
-      const { socketClient } = state;
-      socketClient.disconnect();
       return {
         squares: Array(400).fill(null),
         winner: null,

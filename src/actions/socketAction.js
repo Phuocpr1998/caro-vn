@@ -43,7 +43,7 @@ export function connectToSocketServer() {
   // eslint-disable-next-line func-names
   return function(dispatch) {
     const socketClient = socketIOClient(SocketServer);
-    // socketClient.on('disconnect', () => dispatch(disconnectToSocketServer()));
+    socketClient.on('disconnect', () => dispatch(disconnectToSocketServer()));
     socketClient.on('partner_disconnected', () => {
       dispatch(receiverMessageChat('Đối thủ đã thoát'));
       dispatch(partnerDisconnect());

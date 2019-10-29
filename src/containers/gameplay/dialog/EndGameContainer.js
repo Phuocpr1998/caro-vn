@@ -26,7 +26,15 @@ class EndGameContainer extends React.Component {
 
   render() {
     const { show } = this.state;
-    return <EndGame show={show} handleClose={() => this.handleEndGame()} />;
+    const { message } = this.props;
+
+    return (
+      <EndGame
+        message={message}
+        show={show}
+        handleClose={() => this.handleEndGame()}
+      />
+    );
   }
 }
 
