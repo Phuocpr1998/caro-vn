@@ -5,6 +5,10 @@ export const disconnectToSocketServer = () => ({
   type: 'SOCKET_DISCONNECT'
 });
 
+export const partnerDisconnect = () => ({
+  type: 'SOCKET_PARTNER_DISCONNECT'
+});
+
 export const findRoom = user => ({
   type: 'SOCKET_FIND_ROOM',
   user
@@ -39,10 +43,11 @@ export function connectToSocketServer() {
   // eslint-disable-next-line func-names
   return function(dispatch) {
     const socketClient = socketIOClient(SocketServer);
-    socketClient.on('disconnect', () => dispatch(disconnectToSocketServer()));
-    socketClient.on('partner_disconnected', () =>
-      dispatch(receiverMessageChat('Đối thủ đã thoát'))
-    );
+    // socketClient.on('disconnect', () => dispatch(disconnectToSocketServer()));
+    socketClient.on('partner_disconnected', () => {
+      dispatch(receiverMessageChat('Đối thủ đã thoát'));
+      dispatch(partnerDisconnect());
+    });
     socketClient.on('join_room', data => dispatch(findRoomSuccess(data)));
     socketClient.on('message_chat', data =>
       dispatch(receiverMessageChat(data))

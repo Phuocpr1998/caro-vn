@@ -7,9 +7,9 @@ import FindMatchContainer from '../../containers/gameplay/dialog/FindMatchContai
 import EndGameContainer from '../../containers/gameplay/dialog/EndGameContainer';
 import ControlButton from './ControlButton';
 
-function Game({ winner }) {
+function Game({ winner, partnerDisconnect, disconnectToServer }) {
   let endGameDialog = <></>;
-  if (winner) {
+  if (winner || partnerDisconnect || disconnectToServer) {
     endGameDialog = <EndGameContainer />;
   }
   return (

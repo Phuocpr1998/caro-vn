@@ -253,12 +253,16 @@ const GameReducer = (
     findingRoom: false,
     userPlayer: null,
     playType: 0, // 0 is not select, 1 play with other player, 2 play with machine
-    Xplayer: 0 // 1 is user, 2 playerUser
+    Xplayer: 0, // 1 is user, 2 playerUser
+    partnerDisconnect: false,
+    disconnectToServer: false
   },
   action
 ) => {
   switch (action.type) {
-    case 'RESET_GAME':
+    case 'RESET_GAME': {
+      const { socketClient } = state;
+      socketClient.disconnect();
       return {
         squares: Array(400).fill(null),
         winner: null,
@@ -272,8 +276,11 @@ const GameReducer = (
         findingRoom: false,
         userPlayer: null,
         playType: 0, // 0 is not select, 1 play with other player, 2 play with machine
-        Xplayer: 0 // 1 is user, 2 playerUser
+        Xplayer: 0, // 1 is user, 2 playerUser
+        partnerDisconnect: false,
+        disconnectToServer: false
       };
+    }
     case 'ON_BOARD_CLICK': {
       const {
         squares,
@@ -446,7 +453,9 @@ const GameReducer = (
     case 'SOCKET_UPDATE_CLIENT': {
       return {
         ...state,
-        socketClient: action.socket
+        socketClient: action.socket,
+        disconnectToServer: false,
+        partnerDisconnect: false
       };
     }
     case 'SOCKET_RECEIVER_CHAT_MESSAGE': {
@@ -470,6 +479,7 @@ const GameReducer = (
     }
     case 'SOCKET_FIND_ROOM_FAILED': {
       const { socketClient } = state;
+      if (socketClient === null || socketClient === undefined) return state;
       socketClient.emit('find_room_failed');
       return {
         ...state,
@@ -496,7 +506,8 @@ const GameReducer = (
     }
     case 'SOCKET_DISCONNECT': {
       let { messages } = state;
-      const { user } = state;
+      const { user, winner } = state;
+      if (winner) return state;
       messages = messages.slice();
       messages.push({
         value: 'Ngắt kết nối với máy chủ',
@@ -504,11 +515,16 @@ const GameReducer = (
       });
       return {
         ...state,
-        findingRoom: false,
-        userPlayer: null,
-        messages,
-        playType: 0,
-        Xplayer: 0
+        disconnectToServer: true
+      };
+    }
+    case 'SOCKET_PARTNER_DISCONNECT': {
+      const { winner, user } = state;
+      if (winner) return state;
+      return {
+        ...state,
+        partnerDisconnect: true,
+        winner: user
       };
     }
     case 'PLAY_WITH_MACHINE': {
