@@ -485,7 +485,7 @@ const GameReducer = (
         ...state,
         findingRoom: false,
         userPlayer: action.userPlayer.player,
-        Xplayer: action.userPlayer.XPlayer,
+        Xplayer: action.userPlayer.Xplayer,
         messages
       };
     }
