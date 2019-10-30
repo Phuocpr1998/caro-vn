@@ -256,7 +256,8 @@ const GameReducer = (
     disconnectToServer: false,
     notPermissionMove: false,
     isRequestGiveUp: false,
-    isReceiverRequestGiveUp: false
+    isReceiverRequestGiveUp: false,
+    isRequesting: false
   },
   action
 ) => {
@@ -278,7 +279,8 @@ const GameReducer = (
         disconnectToServer: false,
         notPermissionMove: false,
         isRequestGiveUp: false,
-        isReceiverRequestGiveUp: false
+        isReceiverRequestGiveUp: false,
+        isRequesting: false
       };
     }
     case 'ON_BOARD_CLICK': {
@@ -398,6 +400,24 @@ const GameReducer = (
         messageChat: action.message
       };
     }
+    case 'REQUEST_GIVEUP': {
+      const { isRequestGiveUp } = state;
+      if (isRequestGiveUp) {
+        return state;
+      }
+      return {
+        ...state,
+        isRequestGiveUp: true,
+        isRequesting: false
+      };
+    }
+    case 'REQUEST_GIVEUP_CANCEL': {
+      return {
+        ...state,
+        isRequestGiveUp: false,
+        isRequesting: false
+      };
+    }
     case 'MESSAGE_SEND': {
       const { messages, messageChat, socketClient } = state;
       if (messageChat === undefined || messageChat === '') {
@@ -505,8 +525,25 @@ const GameReducer = (
       socketClient.emit('give_up');
       return {
         ...state,
+        isRequesting: true,
         isRequestGiveUp: true,
         isReceiverRequestGiveUp: false
+      };
+    }
+    case 'SOCKET_REQUEST_GIVEUP_TIMEOUT': {
+      let { messages } = state;
+      const { userPlayer } = state;
+      messages = messages.slice();
+      messages.push({
+        value: 'Từ chối lời đề nghị đầu hàng của bạn',
+        people: userPlayer
+      });
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestGiveUp: false,
+        isReceiverRequestGiveUp: false,
+        messages
       };
     }
     case 'PLAY_WITH_MACHINE': {

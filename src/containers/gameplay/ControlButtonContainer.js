@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { handleMesageFormSubmit, messageChatChange } from '../../actions';
+import { giveUp, messageChatChange } from '../../actions';
 import ControlButton from '../../components/gameplay/ControlButton';
 
 const mapStateToProps = state => ({
@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 class ControlButtonContainer extends React.Component {
   handleGiveUp() {
     const { dispatch } = this.props;
-    dispatch(handleMesageFormSubmit());
+    dispatch(giveUp());
   }
 
   handleUndo() {

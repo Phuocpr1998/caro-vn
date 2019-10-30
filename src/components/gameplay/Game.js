@@ -5,8 +5,9 @@ import HistoryListContainer from '../../containers/gameplay/HistoryListContainer
 import ChatBoxContainer from '../../containers/gameplay/ChatBoxContainer';
 import FindMatchContainer from '../../containers/gameplay/dialog/FindMatchContainer';
 import EndGameContainer from '../../containers/gameplay/dialog/EndGameContainer';
-import ControlButton from './ControlButton';
 import MovePermissionContainer from '../../containers/gameplay/dialog/MovePermissionContainer';
+import ControlButtonContainer from '../../containers/gameplay/ControlButtonContainer';
+import GiveUpContainer from '../../containers/gameplay/dialog/GiveUpContainer';
 
 function Game({ winner, partnerDisconnect, disconnectToServer, Xplayer }) {
   let endGameDialog = <></>;
@@ -35,6 +36,7 @@ function Game({ winner, partnerDisconnect, disconnectToServer, Xplayer }) {
   return (
     <>
       {endGameDialog}
+      <GiveUpContainer />
       <FindMatchContainer />
       <MovePermissionContainer />
       <h3 className="game-title">Game caro việt nam</h3>
@@ -43,7 +45,7 @@ function Game({ winner, partnerDisconnect, disconnectToServer, Xplayer }) {
           <BoardContainer size={20} />
         </div>
         <div>
-          <ControlButton />
+          <ControlButtonContainer />
           <HistoryListContainer />
           <ChatBoxContainer />
         </div>

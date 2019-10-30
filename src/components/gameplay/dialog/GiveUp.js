@@ -8,8 +8,8 @@ function GiveUp(props) {
     handleCancel,
     handleAccept,
     user,
-    isRequestGiveUp,
-    isReceiverRequestGiveUp
+    isReceiverRequestGiveUp,
+    isRequesting
   } = props;
 
   let requestGiveUpAnimation;
@@ -17,7 +17,7 @@ function GiveUp(props) {
   if (isReceiverRequestGiveUp) {
     requestGiveUpAnimation = <Modal.Body>Đối thủ xin đầu hàng.</Modal.Body>;
   } else {
-    requestGiveUpAnimation = isRequestGiveUp ? (
+    requestGiveUpAnimation = isRequesting ? (
       <div className="loader-container">
         <div className="loader" />
       </div>
@@ -26,7 +26,7 @@ function GiveUp(props) {
     );
   }
 
-  const buttonGroup = isRequestGiveUp ? (
+  const buttonGroup = isRequesting ? (
     <>
       <Button variant="primary" onClick={handleAccept} disabled>
         Xác nhận

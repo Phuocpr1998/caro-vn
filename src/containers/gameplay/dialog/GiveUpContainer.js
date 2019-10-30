@@ -5,7 +5,7 @@ import {
   requestGiveUpTimeout
 } from '../../../actions/socketAction';
 import GiveUp from '../../../components/gameplay/dialog/GiveUp';
-import { requestGiveUpCancel } from '../../../actions';
+import { giveUpCancel } from '../../../actions';
 
 const mapStateToProps = state => ({
   ...state.GameReducer,
@@ -17,8 +17,8 @@ class GiveUpContainer extends React.Component {
     const { dispatch, user } = this.props;
     dispatch(requestGiveUp(user));
     setTimeout(() => {
-      const { userPlayer } = this.props;
-      if (userPlayer === null || userPlayer === undefined) {
+      const { isRequesting } = this.props;
+      if (isRequesting) {
         dispatch(requestGiveUpTimeout());
       }
     }, 15000);
@@ -26,16 +26,21 @@ class GiveUpContainer extends React.Component {
 
   handleCancel() {
     const { dispatch } = this.props;
-    dispatch(requestGiveUpCancel());
+    dispatch(giveUpCancel());
   }
 
   render() {
-    const { user, isRequestGiveUp, isReceiverRequestGiveUp } = this.props;
+    const {
+      user,
+      isRequestGiveUp,
+      isReceiverRequestGiveUp,
+      isRequesting
+    } = this.props;
     return (
       <GiveUp
         show={isRequestGiveUp || isReceiverRequestGiveUp}
         user={user}
-        isRequestGiveUp={isRequestGiveUp}
+        isRequesting={isRequesting}
         isReceiverRequestGiveUp={isReceiverRequestGiveUp}
         handleAccept={() => this.handleAccept()}
         handleCancel={() => this.handleCancel()}

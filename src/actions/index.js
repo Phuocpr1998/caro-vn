@@ -121,7 +121,7 @@ export const giveUp = user => ({
   user
 });
 
-export const requestGiveUpCancel = user => ({
-  type: 'REQUEST_GIVEUPCancel',
+export const giveUpCancel = user => ({
+  type: 'REQUEST_GIVEUP_CANCEL',
   user
 });
