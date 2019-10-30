@@ -530,12 +530,69 @@ const GameReducer = (
         isReceiverRequestGiveUp: false
       };
     }
+    case 'SOCKET_RECEVIER_REQUEST_GIVEUP': {
+      return {
+        ...state,
+        isReceiverRequestGiveUp: true
+      };
+    }
+    case 'SOCKET_SEND_RESPONSE_GIVEUP_ACCEPT': {
+      const { socketClient } = state;
+      socketClient.emit('give_up_accept');
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestGiveUp: false,
+        isReceiverRequestGiveUp: false
+      };
+    }
+    case 'SOCKET_SEND_RESPONSE_GIVEUP_CANCEL': {
+      const { socketClient } = state;
+      socketClient.emit('give_up_cancel');
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestGiveUp: false,
+        isReceiverRequestGiveUp: false
+      };
+    }
+    case 'SOCKET_RECEVIER_RESPONSE_GIVEUP_ACCEPT': {
+      let { messages } = state;
+      const { userPlayer } = state;
+      messages = messages.slice();
+      messages.push({
+        value: 'Đề nghị đầu hàng được chấp nhận',
+        people: userPlayer
+      });
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestGiveUp: false,
+        isReceiverRequestGiveUp: false
+      };
+    }
+    case 'SOCKET_RECEVIER_RESPONSE_GIVEUP_CANCEL': {
+      let { messages } = state;
+      const { userPlayer } = state;
+
+      messages = messages.slice();
+      messages.push({
+        value: 'Đề nghị đầu hàng bị từ chối',
+        people: userPlayer
+      });
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestGiveUp: false,
+        isReceiverRequestGiveUp: false
+      };
+    }
     case 'SOCKET_REQUEST_GIVEUP_TIMEOUT': {
       let { messages } = state;
       const { userPlayer } = state;
       messages = messages.slice();
       messages.push({
-        value: 'Từ chối lời đề nghị đầu hàng của bạn',
+        value: 'Không phản hồi',
         people: userPlayer
       });
       return {

@@ -19,6 +19,31 @@ export const requestGiveUp = user => ({
   user
 });
 
+export const receiverRequestGiveUp = user => ({
+  type: 'SOCKET_RECEVIER_REQUEST_GIVEUP',
+  user
+});
+
+export const sendResponseGiveUpAccept = user => ({
+  type: 'SOCKET_SEND_RESPONSE_GIVEUP_ACCEPT',
+  user
+});
+
+export const sendResponseGiveUpCancel = user => ({
+  type: 'SOCKET_SEND_RESPONSE_GIVEUP_CANCEL',
+  user
+});
+
+export const receiverResponseGiveUpAccept = user => ({
+  type: 'SOCKET_RECEVIER_RESPONSE_GIVEUP_ACCEPT',
+  user
+});
+
+export const receiverResponseGiveUpCancel = user => ({
+  type: 'SOCKET_RECEVIER_RESPONSE_GIVEUP_CANCEL',
+  user
+});
+
 export const requestGiveUpTimeout = user => ({
   type: 'SOCKET_REQUEST_GIVEUP_TIMEOUT',
   user
@@ -67,6 +92,13 @@ export function connectToSocketServer() {
     );
     socketClient.on('fight', data =>
       dispatch(receiverMovePosition(data.i, data.j))
+    );
+    socketClient.on('give_up', () => dispatch(receiverRequestGiveUp()));
+    socketClient.on('give_up_accept', () =>
+      dispatch(receiverResponseGiveUpAccept())
+    );
+    socketClient.on('give_up_cancel', () =>
+      dispatch(receiverResponseGiveUpCancel())
     );
     dispatch(updateSocketClient(socketClient));
   };

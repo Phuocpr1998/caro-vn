@@ -48,7 +48,7 @@ function GiveUp(props) {
 
   return (
     <>
-      <Modal show={show} onHide={handleCancel}>
+      <Modal show={show}>
         <Modal.Header closeButton>
           <Modal.Title className="modal-title">Đầu hàng</Modal.Title>
         </Modal.Header>
