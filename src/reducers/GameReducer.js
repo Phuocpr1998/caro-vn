@@ -566,6 +566,7 @@ const GameReducer = (
       });
       return {
         ...state,
+        messages,
         isRequesting: false,
         isRequestGiveUp: false,
         isReceiverRequestGiveUp: false
@@ -582,6 +583,7 @@ const GameReducer = (
       });
       return {
         ...state,
+        messages,
         isRequesting: false,
         isRequestGiveUp: false,
         isReceiverRequestGiveUp: false

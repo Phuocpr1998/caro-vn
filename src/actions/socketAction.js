@@ -93,13 +93,17 @@ export function connectToSocketServer() {
     socketClient.on('fight', data =>
       dispatch(receiverMovePosition(data.i, data.j))
     );
-    socketClient.on('give_up', () => dispatch(receiverRequestGiveUp()));
-    socketClient.on('give_up_accept', () =>
-      dispatch(receiverResponseGiveUpAccept())
-    );
-    socketClient.on('give_up_cancel', () =>
-      dispatch(receiverResponseGiveUpCancel())
-    );
+    socketClient.on('give_up', () => {
+      dispatch(receiverRequestGiveUp());
+    });
+    socketClient.on('give_up_accept', () => {
+      console.log('give_up_accept');
+      dispatch(receiverResponseGiveUpAccept());
+    });
+    socketClient.on('give_up_cancel', () => {
+      console.log('give_up_cancel');
+      dispatch(receiverResponseGiveUpCancel());
+    });
     dispatch(updateSocketClient(socketClient));
   };
 }
