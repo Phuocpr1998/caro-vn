@@ -255,7 +255,8 @@ const GameReducer = (
     playType: 0, // 0 is not select, 1 play with other player, 2 play with machine
     Xplayer: 0, // 1 is user, 2 playerUser
     partnerDisconnect: false,
-    disconnectToServer: false
+    disconnectToServer: false,
+    notPermissionMove: false
   },
   action
 ) => {
@@ -276,7 +277,8 @@ const GameReducer = (
         playType: 0, // 0 is not select, 1 play with other player, 2 play with machine
         Xplayer: 0, // 1 is user, 2 playerUser
         partnerDisconnect: false,
-        disconnectToServer: false
+        disconnectToServer: false,
+        notPermissionMove: false
       };
     }
     case 'ON_BOARD_CLICK': {
@@ -293,7 +295,10 @@ const GameReducer = (
         (history.length % 2 === 1 && Xplayer === 1) ||
         (history.length % 2 === 0 && Xplayer === 2)
       ) {
-        return state;
+        return {
+          ...state,
+          notPermissionMove: true
+        };
       }
 
       const size = Math.sqrt(squares.length);
@@ -396,37 +401,37 @@ const GameReducer = (
         history: state.history.reverse(),
         indexHistorySelect: state.history.length - state.indexHistorySelect - 1
       };
-    case 'ON_HISTORY_CLICK': {
-      const { history, sortDecreaseHistory, squares } = state;
-      const sizeHistory = history.length;
-      const size = Math.sqrt(squares.length);
+    // case 'ON_HISTORY_CLICK': {
+    //   const { history, sortDecreaseHistory, squares } = state;
+    //   const sizeHistory = history.length;
+    //   const size = Math.sqrt(squares.length);
 
-      if (action.index >= sizeHistory) return state;
+    //   if (action.index >= sizeHistory) return state;
 
-      let data = null;
-      squares.fill(null);
-      if (sortDecreaseHistory) {
-        for (let i = sizeHistory - 1; i >= action.index; i -= 1) {
-          data = history[i];
-          squares[data.i * size + data.j] = data.value;
-        }
-      } else {
-        for (let i = 0; i <= action.index; i += 1) {
-          data = history[i];
-          squares[data.i * size + data.j] = data.value;
-        }
-      }
-      const result = checkWinner(squares, data.i, data.j, data.value);
+    //   let data = null;
+    //   squares.fill(null);
+    //   if (sortDecreaseHistory) {
+    //     for (let i = sizeHistory - 1; i >= action.index; i -= 1) {
+    //       data = history[i];
+    //       squares[data.i * size + data.j] = data.value;
+    //     }
+    //   } else {
+    //     for (let i = 0; i <= action.index; i += 1) {
+    //       data = history[i];
+    //       squares[data.i * size + data.j] = data.value;
+    //     }
+    //   }
+    //   const result = checkWinner(squares, data.i, data.j, data.value);
 
-      return {
-        ...state,
-        winner: result.isWin ? data.value : null,
-        winPositions: result.winPositions,
-        squares,
-        indexHistorySelect: action.index,
-        xIsNext: history[action.index].value !== 'X'
-      };
-    }
+    //   return {
+    //     ...state,
+    //     winner: result.isWin ? data.value : null,
+    //     winPositions: result.winPositions,
+    //     squares,
+    //     indexHistorySelect: action.index,
+    //     xIsNext: history[action.index].value !== 'X'
+    //   };
+    // }
     case 'MESSAGE_CHANGE': {
       const { socketClient } = state;
       socketClient.emit('message_typing');
@@ -489,11 +494,23 @@ const GameReducer = (
     }
     case 'SOCKET_FIND_ROOM_SUCCESS': {
       let { messages } = state;
+      const { user } = state;
       messages = messages.slice();
       messages.push({
         value: 'Đối thủ đã vào phòng',
         people: action.userPlayer.player
       });
+      if (action.userPlayer.Xplayer === 1) {
+        messages.push({
+          value: 'Bạn là người đánh trước',
+          people: user
+        });
+      } else {
+        messages.push({
+          value: 'Đối thủ đươc quyền đánh trước',
+          people: user
+        });
+      }
       return {
         ...state,
         findingRoom: false,
@@ -532,6 +549,12 @@ const GameReducer = (
         userPlayer: null,
         playType: 2,
         Xplayer: 0
+      };
+    }
+    case 'MOVE_PERMISION_CHANGE': {
+      return {
+        ...state,
+        notPermissionMove: false
       };
     }
     default:

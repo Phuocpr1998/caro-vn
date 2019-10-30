@@ -115,3 +115,7 @@ export const requestGetProfileInfoError = error => ({
 export const playWithMachine = () => ({
   type: 'PLAY_WITH_MACHINE'
 });
+
+export const changeMovePermission = () => ({
+  type: 'MOVE_PERMISION_CHANGE'
+});
