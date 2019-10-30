@@ -5,23 +5,11 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import '../../content/scrollbar.css';
 
-function HistoryList({
-  history,
-  indexHistorySelect,
-  handleSortHistoryClick,
-  handleHistoryClick
-}) {
+function HistoryList({ history, indexHistorySelect, handleHistoryClick }) {
   return (
     <div className="game-history">
       <div className="title">
         <div> Lịch sử đánh </div>
-        <button
-          type="button"
-          className="button"
-          onClick={() => handleSortHistoryClick()}
-        >
-          Sort
-        </button>
       </div>
       <div className="history-content scrollbar scrollbar-primary">
         <Table responsive bordered>

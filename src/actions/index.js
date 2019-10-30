@@ -14,10 +14,6 @@ export const handleOnHistoryClick = index => ({
   index
 });
 
-export const handleOnButtonSortClick = () => ({
-  type: 'SORT_HISTORY'
-});
-
 export const handleMesageFormSubmit = () => ({
   type: 'MESSAGE_SEND'
 });

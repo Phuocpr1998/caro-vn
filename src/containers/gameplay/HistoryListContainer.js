@@ -1,18 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import HistoryList from '../../components/gameplay/HistoryList';
-import { handleOnButtonSortClick, handleOnHistoryClick } from '../../actions';
+import { handleOnHistoryClick } from '../../actions';
 
 const mapStateToProps = state => ({
   ...state.GameReducer
 });
 
 class HistoryListContainer extends React.Component {
-  handleSortHistoryClick() {
-    const { dispatch } = this.props;
-    dispatch(handleOnButtonSortClick());
-  }
-
   handleHistoryClick(index) {
     const { dispatch } = this.props;
     dispatch(handleOnHistoryClick(index));
@@ -24,7 +19,6 @@ class HistoryListContainer extends React.Component {
       <HistoryList
         history={history}
         indexHistorySelect={indexHistorySelect}
-        handleSortHistoryClick={() => this.handleSortHistoryClick()}
         handleHistoryClick={index => this.handleHistoryClick(index)}
       />
     );

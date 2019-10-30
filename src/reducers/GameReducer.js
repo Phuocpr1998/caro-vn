@@ -244,8 +244,6 @@ const GameReducer = (
     squares: Array(400).fill(null),
     winner: null,
     history: [],
-    indexHistorySelect: -1,
-    sortDecreaseHistory: false,
     winPositions: [],
     messages: [],
     messageChat: '',
@@ -266,8 +264,6 @@ const GameReducer = (
         squares: Array(400).fill(null),
         winner: null,
         history: [],
-        indexHistorySelect: -1,
-        sortDecreaseHistory: false,
         winPositions: [],
         messages: [],
         messageChat: '',
@@ -282,14 +278,8 @@ const GameReducer = (
       };
     }
     case 'ON_BOARD_CLICK': {
-      const {
-        squares,
-        winner,
-        sortDecreaseHistory,
-        Xplayer,
-        socketClient
-      } = state;
-      let { history, indexHistorySelect } = state;
+      const { squares, winner, Xplayer, socketClient, history } = state;
+      const historyNew = history.slice();
 
       if (
         (history.length % 2 === 1 && Xplayer === 1) ||
@@ -304,31 +294,14 @@ const GameReducer = (
       const size = Math.sqrt(squares.length);
       const { i, j } = action;
       if (squares[i * size + j] || winner) return state;
-      if (indexHistorySelect !== -1) {
-        if (sortDecreaseHistory) {
-          history = history.slice(indexHistorySelect);
-        } else {
-          history = history.slice(0, indexHistorySelect + 1);
-        }
-        indexHistorySelect = -1;
-      }
 
       squares[i * size + j] = Xplayer === 1 ? 'X' : 'O';
-      if (sortDecreaseHistory) {
-        history.unshift({
-          idx: history.length,
-          i,
-          j,
-          value: squares[i * size + j]
-        });
-      } else {
-        history.push({
-          idx: history.length,
-          i,
-          j,
-          value: squares[i * size + j]
-        });
-      }
+      historyNew.push({
+        idx: history.length,
+        i,
+        j,
+        value: squares[i * size + j]
+      });
       // send position to socket server
       socketClient.emit('fight', { i, j });
 
@@ -339,13 +312,12 @@ const GameReducer = (
         winner: result.isWin ? value : null,
         winPositions: result.winPositions,
         squares,
-        history,
-        indexHistorySelect
+        history: historyNew
       };
     }
     case 'ON_RECEIVER_MOVE': {
-      const { squares, winner, sortDecreaseHistory, Xplayer } = state;
-      let { history, indexHistorySelect } = state;
+      const { squares, winner, history, Xplayer } = state;
+      const historyNew = history.slice();
 
       if (
         (history.length % 2 === 0 && Xplayer === 1) ||
@@ -357,31 +329,14 @@ const GameReducer = (
       const size = Math.sqrt(squares.length);
       const { i, j } = action;
       if (squares[i * size + j] || winner) return state;
-      if (indexHistorySelect !== -1) {
-        if (sortDecreaseHistory) {
-          history = history.slice(indexHistorySelect);
-        } else {
-          history = history.slice(0, indexHistorySelect + 1);
-        }
-        indexHistorySelect = -1;
-      }
 
       squares[i * size + j] = Xplayer === 2 ? 'X' : 'O';
-      if (sortDecreaseHistory) {
-        history.unshift({
-          idx: history.length,
-          i,
-          j,
-          value: squares[i * size + j]
-        });
-      } else {
-        history.push({
-          idx: history.length,
-          i,
-          j,
-          value: squares[i * size + j]
-        });
-      }
+      historyNew.push({
+        idx: history.length,
+        i,
+        j,
+        value: squares[i * size + j]
+      });
 
       const value = squares[i * size + j];
       const result = checkWinner(squares, i, j, value);
@@ -390,17 +345,16 @@ const GameReducer = (
         winner: result.isWin ? value : null,
         winPositions: result.winPositions,
         squares,
-        history,
-        indexHistorySelect
+        history: historyNew
       };
     }
-    case 'SORT_HISTORY':
-      return {
-        ...state,
-        sortDecreaseHistory: !state.sortDecreaseHistory,
-        history: state.history.reverse(),
-        indexHistorySelect: state.history.length - state.indexHistorySelect - 1
-      };
+    // case 'SORT_HISTORY':
+    //   return {
+    //     ...state,
+    //     sortDecreaseHistory: !state.sortDecreaseHistory,
+    //     history: state.history.reverse(),
+    //     indexHistorySelect: state.history.length - state.indexHistorySelect - 1
+    //   };
     // case 'ON_HISTORY_CLICK': {
     //   const { history, sortDecreaseHistory, squares } = state;
     //   const sizeHistory = history.length;
