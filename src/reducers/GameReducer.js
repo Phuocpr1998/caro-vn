@@ -254,7 +254,9 @@ const GameReducer = (
     Xplayer: 0, // 1 is user, 2 playerUser
     partnerDisconnect: false,
     disconnectToServer: false,
-    notPermissionMove: false
+    notPermissionMove: false,
+    isRequestGiveUp: false,
+    isReceiverRequestGiveUp: false
   },
   action
 ) => {
@@ -274,7 +276,9 @@ const GameReducer = (
         Xplayer: 0, // 1 is user, 2 playerUser
         partnerDisconnect: false,
         disconnectToServer: false,
-        notPermissionMove: false
+        notPermissionMove: false,
+        isRequestGiveUp: false,
+        isReceiverRequestGiveUp: false
       };
     }
     case 'ON_BOARD_CLICK': {
@@ -494,6 +498,15 @@ const GameReducer = (
         ...state,
         partnerDisconnect: true,
         winner: user
+      };
+    }
+    case 'SOCKET_REQUEST_GIVEUP': {
+      const { socketClient } = state;
+      socketClient.emit('give_up');
+      return {
+        ...state,
+        isRequestGiveUp: true,
+        isReceiverRequestGiveUp: false
       };
     }
     case 'PLAY_WITH_MACHINE': {

@@ -14,6 +14,16 @@ export const findRoom = user => ({
   user
 });
 
+export const requestGiveUp = user => ({
+  type: 'SOCKET_REQUEST_GIVEUP',
+  user
+});
+
+export const requestGiveUpTimeout = user => ({
+  type: 'SOCKET_REQUEST_GIVEUP_TIMEOUT',
+  user
+});
+
 export const findRoomFailed = () => ({
   type: 'SOCKET_FIND_ROOM_FAILED'
 });

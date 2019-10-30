@@ -115,3 +115,13 @@ export const playWithMachine = () => ({
 export const changeMovePermission = () => ({
   type: 'MOVE_PERMISION_CHANGE'
 });
+
+export const giveUp = user => ({
+  type: 'REQUEST_GIVEUP',
+  user
+});
+
+export const requestGiveUpCancel = user => ({
+  type: 'REQUEST_GIVEUPCancel',
+  user
+});

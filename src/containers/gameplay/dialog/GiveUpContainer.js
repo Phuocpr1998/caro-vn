@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { findRoom, findRoomFailed } from '../../../actions/socketAction';
-import { playWithMachine } from '../../../actions';
+import {
+  requestGiveUp,
+  requestGiveUpTimeout
+} from '../../../actions/socketAction';
 import GiveUp from '../../../components/gameplay/dialog/GiveUp';
+import { requestGiveUpCancel } from '../../../actions';
 
 const mapStateToProps = state => ({
   ...state.GameReducer,
@@ -11,59 +13,27 @@ const mapStateToProps = state => ({
 });
 
 class GiveUpContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: true
-    };
-  }
-
-  componentDidUpdate() {
-    const { userPlayer } = this.props;
-    const { show } = this.state;
-    if (userPlayer !== null && userPlayer !== undefined && show) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        show: false
-      });
-    }
-  }
-
   handleAccept() {
     const { dispatch, user } = this.props;
-    dispatch(findRoom(user));
+    dispatch(requestGiveUp(user));
     setTimeout(() => {
       const { userPlayer } = this.props;
       if (userPlayer === null || userPlayer === undefined) {
-        dispatch(findRoomFailed());
+        dispatch(requestGiveUpTimeout());
       }
     }, 15000);
   }
 
   handleCancel() {
     const { dispatch } = this.props;
-    dispatch(playWithMachine());
+    dispatch(requestGiveUpCancel());
   }
 
   render() {
-    const { show } = this.state;
-    const {
-      user,
-      userPlayer,
-      playType,
-      isRequestGiveUp,
-      isReceiverRequestGiveUp
-    } = this.props;
-    if (
-      !show &&
-      (userPlayer === null || userPlayer === undefined) &&
-      playType === 0
-    ) {
-      return <Redirect to="/" />;
-    }
+    const { user, isRequestGiveUp, isReceiverRequestGiveUp } = this.props;
     return (
       <GiveUp
-        show={show}
+        show={isRequestGiveUp || isReceiverRequestGiveUp}
         user={user}
         isRequestGiveUp={isRequestGiveUp}
         isReceiverRequestGiveUp={isReceiverRequestGiveUp}
