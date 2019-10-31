@@ -288,17 +288,43 @@ const GameReducer = (
       };
     }
     case 'ON_BOARD_CLICK': {
-      const { squares, winner, Xplayer, socketClient, history } = state;
-      const historyNew = history.slice();
+      const {
+        squares,
+        winner,
+        Xplayer,
+        socketClient,
+        history,
+        playType
+      } = state;
+      let { indexHistorySelect } = state;
 
-      if (
-        (history.length % 2 === 1 && Xplayer === 1) ||
-        (history.length % 2 === 0 && Xplayer === 2)
+      if (playType !== 2) {
+        if (
+          (history.length % 2 === 1 && Xplayer === 1) ||
+          (history.length % 2 === 0 && Xplayer === 2)
+        ) {
+          return {
+            ...state,
+            notPermissionMove: true
+          };
+        }
+      } else if (
+        indexHistorySelect !== -1 &&
+        (indexHistorySelect + 1) % 2 === 1
       ) {
         return {
           ...state,
           notPermissionMove: true
         };
+      }
+
+      let historyNew;
+      if (playType === 2 && indexHistorySelect !== -1) {
+        historyNew = history.slice(0, indexHistorySelect + 1);
+        console.log(historyNew, indexHistorySelect);
+        indexHistorySelect = -1;
+      } else {
+        historyNew = history.slice();
       }
 
       const size = Math.sqrt(squares.length);
@@ -307,13 +333,16 @@ const GameReducer = (
 
       squares[i * size + j] = Xplayer === 1 ? 'X' : 'O';
       historyNew.push({
-        idx: history.length,
+        idx: historyNew.length,
         i,
         j,
         value: squares[i * size + j]
       });
-      // send position to socket server
-      socketClient.emit('fight', { i, j });
+
+      if (playType !== 2) {
+        // send position to socket server
+        socketClient.emit('fight', { i, j });
+      }
 
       const value = squares[i * size + j];
       const result = checkWinner(squares, i, j, value);
@@ -322,18 +351,35 @@ const GameReducer = (
         winner: result.isWin ? value : null,
         winPositions: result.winPositions,
         squares,
-        history: historyNew
+        history: historyNew,
+        indexHistorySelect
       };
     }
     case 'ON_RECEIVER_MOVE': {
-      const { squares, winner, history, Xplayer } = state;
-      const historyNew = history.slice();
-
-      if (
-        (history.length % 2 === 0 && Xplayer === 1) ||
-        (history.length % 2 === 1 && Xplayer === 2)
+      const { squares, winner, history, Xplayer, playType } = state;
+      let { indexHistorySelect } = state;
+      if (playType !== 2) {
+        if (
+          (history.length % 2 === 0 && Xplayer === 1) ||
+          (history.length % 2 === 1 && Xplayer === 2)
+        ) {
+          return state;
+        }
+      } else if (
+        indexHistorySelect !== -1 &&
+        (indexHistorySelect + 1) % 2 === 0
       ) {
-        return state;
+        return {
+          ...state
+        };
+      }
+
+      let historyNew;
+      if (playType === 2 && indexHistorySelect !== -1) {
+        historyNew = history.slice(0, indexHistorySelect + 1);
+        indexHistorySelect = -1;
+      } else {
+        historyNew = history.slice();
       }
 
       const size = Math.sqrt(squares.length);
@@ -342,7 +388,7 @@ const GameReducer = (
 
       squares[i * size + j] = Xplayer === 2 ? 'X' : 'O';
       historyNew.push({
-        idx: history.length,
+        idx: historyNew.length,
         i,
         j,
         value: squares[i * size + j]
@@ -355,7 +401,8 @@ const GameReducer = (
         winner: result.isWin ? value : null,
         winPositions: result.winPositions,
         squares,
-        history: historyNew
+        history: historyNew,
+        indexHistorySelect
       };
     }
     // case 'SORT_HISTORY':
@@ -392,8 +439,7 @@ const GameReducer = (
         winner: result.isWin ? data.value : null,
         winPositions: result.winPositions,
         squares,
-        indexHistorySelect: action.index,
-        xIsNext: history[action.index].value !== 'X'
+        indexHistorySelect: action.index
       };
     }
     case 'MESSAGE_CHANGE': {
