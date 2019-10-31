@@ -25,11 +25,9 @@ class HistoryListContainer extends React.Component {
     const { dispatch, playType, squares } = this.props;
     if (playType === 2) {
       dispatch(handleOnHistoryClick(index));
-      console.log('aaaaaaaaaaa', index);
       if ((index + 1) % 2 === 1) {
         const machinePosition = randomPosition(squares);
         setTimeout(() => {
-          console.log('aaaaaaaaaaa');
           dispatch(receiverMovePosition(machinePosition.i, machinePosition.j));
         }, 500);
       }

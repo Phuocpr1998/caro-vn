@@ -320,8 +320,6 @@ const GameReducer = (
 
       let historyNew;
       if (playType === 2 && indexHistorySelect !== -1) {
-        historyNew = history.slice(0, indexHistorySelect + 1);
-        console.log(historyNew, indexHistorySelect);
         indexHistorySelect = -1;
       } else {
         historyNew = history.slice();
