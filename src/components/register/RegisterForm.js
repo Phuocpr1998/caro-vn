@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Image } from 'react-bootstrap';
-import ImageUploader from 'react-images-upload';
 import logo from '../../content/logo.png';
 import '../../content/form.css';
 import TitleComponent from '../title/TitleComponent';
@@ -100,14 +99,11 @@ export default function RegisterForm(props) {
           </Form.Group>
           <Form.Group controlId="formImage">
             <Form.Label>Hình đại điện</Form.Label>
-            <ImageUploader
-              withIcon={false}
-              withPreview
-              singleImage
-              buttonText="Choose images"
+            <Form.Control
+              type="file"
+              placeholder="Nhập xác nhận mật khẩu"
               onChange={handleImageChange}
-              imgExtension={['.jpg', '.png']}
-              maxFileSize={5242880}
+              required
             />
           </Form.Group>
           {message}

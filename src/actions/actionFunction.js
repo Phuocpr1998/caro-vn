@@ -50,7 +50,8 @@ export function register(user) {
     dispatch(requestPostRegister());
     const config = {
       headers: {
-        'content-type': 'multipart/form-data'
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*'
       }
     };
     const formData = new FormData();

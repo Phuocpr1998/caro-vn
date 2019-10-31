@@ -45,7 +45,8 @@ class RegisterContainer extends React.Component {
 
   handleImageChange(photo) {
     const { dispatch } = this.props;
-    dispatch(imageRegisterChange(photo));
+    console.log('handleImageChange', photo.target.files);
+    dispatch(imageRegisterChange(photo.target.files[0]));
   }
 
   handlePasswordChange(e) {
