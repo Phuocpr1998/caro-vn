@@ -7,13 +7,9 @@
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  align-items: center;
 }
 
 .form .button_group button {
   margin: 5px !important;
-}
-
-.form .link {
-  text-decoration: none;
-  color: white;
 }

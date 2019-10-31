@@ -99,11 +99,9 @@ export default function RegisterForm(props) {
           {message}
           <div className="button_group">
             {button}
-            <Button variant="success" type="button">
-              <Link className="link" to="/login">
-                Đăng nhập
-              </Link>
-            </Button>
+            <Link variant="success" className="link" to="/login">
+              Đăng nhập
+            </Link>
           </div>
         </Form>
       </div>

@@ -257,7 +257,8 @@ const GameReducer = (
     notPermissionMove: false,
     isRequestGiveUp: false,
     isReceiverRequestGiveUp: false,
-    isRequesting: false
+    isRequesting: false,
+    indexHistorySelect: -1
   },
   action
 ) => {
@@ -280,7 +281,8 @@ const GameReducer = (
         notPermissionMove: false,
         isRequestGiveUp: false,
         isReceiverRequestGiveUp: false,
-        isRequesting: false
+        isRequesting: false,
+        indexHistorySelect: -1
       };
     }
     case 'ON_BOARD_CLICK': {
@@ -361,37 +363,37 @@ const GameReducer = (
     //     history: state.history.reverse(),
     //     indexHistorySelect: state.history.length - state.indexHistorySelect - 1
     //   };
-    // case 'ON_HISTORY_CLICK': {
-    //   const { history, sortDecreaseHistory, squares } = state;
-    //   const sizeHistory = history.length;
-    //   const size = Math.sqrt(squares.length);
+    case 'ON_HISTORY_CLICK': {
+      const { history, sortDecreaseHistory, squares } = state;
+      const sizeHistory = history.length;
+      const size = Math.sqrt(squares.length);
 
-    //   if (action.index >= sizeHistory) return state;
+      if (action.index >= sizeHistory) return state;
 
-    //   let data = null;
-    //   squares.fill(null);
-    //   if (sortDecreaseHistory) {
-    //     for (let i = sizeHistory - 1; i >= action.index; i -= 1) {
-    //       data = history[i];
-    //       squares[data.i * size + data.j] = data.value;
-    //     }
-    //   } else {
-    //     for (let i = 0; i <= action.index; i += 1) {
-    //       data = history[i];
-    //       squares[data.i * size + data.j] = data.value;
-    //     }
-    //   }
-    //   const result = checkWinner(squares, data.i, data.j, data.value);
+      let data = null;
+      squares.fill(null);
+      if (sortDecreaseHistory) {
+        for (let i = sizeHistory - 1; i >= action.index; i -= 1) {
+          data = history[i];
+          squares[data.i * size + data.j] = data.value;
+        }
+      } else {
+        for (let i = 0; i <= action.index; i += 1) {
+          data = history[i];
+          squares[data.i * size + data.j] = data.value;
+        }
+      }
+      const result = checkWinner(squares, data.i, data.j, data.value);
 
-    //   return {
-    //     ...state,
-    //     winner: result.isWin ? data.value : null,
-    //     winPositions: result.winPositions,
-    //     squares,
-    //     indexHistorySelect: action.index,
-    //     xIsNext: history[action.index].value !== 'X'
-    //   };
-    // }
+      return {
+        ...state,
+        winner: result.isWin ? data.value : null,
+        winPositions: result.winPositions,
+        squares,
+        indexHistorySelect: action.index,
+        xIsNext: history[action.index].value !== 'X'
+      };
+    }
     case 'MESSAGE_CHANGE': {
       const { socketClient } = state;
       socketClient.emit('message_typing');
@@ -537,13 +539,14 @@ const GameReducer = (
       };
     }
     case 'SOCKET_SEND_RESPONSE_GIVEUP_ACCEPT': {
-      const { socketClient } = state;
+      const { socketClient, Xplayer } = state;
       socketClient.emit('give_up_accept');
       return {
         ...state,
         isRequesting: false,
         isRequestGiveUp: false,
-        isReceiverRequestGiveUp: false
+        isReceiverRequestGiveUp: false,
+        winner: Xplayer === 1 ? 'X' : 'O'
       };
     }
     case 'SOCKET_SEND_RESPONSE_GIVEUP_CANCEL': {
@@ -558,7 +561,7 @@ const GameReducer = (
     }
     case 'SOCKET_RECEVIER_RESPONSE_GIVEUP_ACCEPT': {
       let { messages } = state;
-      const { userPlayer } = state;
+      const { userPlayer, Xplayer } = state;
       messages = messages.slice();
       messages.push({
         value: 'Đề nghị đầu hàng được chấp nhận',
@@ -569,7 +572,8 @@ const GameReducer = (
         messages,
         isRequesting: false,
         isRequestGiveUp: false,
-        isReceiverRequestGiveUp: false
+        isReceiverRequestGiveUp: false,
+        winner: Xplayer === 1 ? 'O' : 'X'
       };
     }
     case 'SOCKET_RECEVIER_RESPONSE_GIVEUP_CANCEL': {

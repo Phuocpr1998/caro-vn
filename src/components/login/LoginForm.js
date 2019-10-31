@@ -68,11 +68,9 @@ export default function LoginForm(props) {
           {message}
           <div className="button_group">
             {buttonLogin}
-            <Button variant="danger" type="button">
-              <Link className="link" to="/register">
-                Đăng ký tài khoản
-              </Link>
-            </Button>
+            <Link className="btn btn-danger" to="/register">
+              Đăng ký tài khoản
+            </Link>
           </div>
           <div className="button_group">
             <a href={`${HostAPI}/user/login-google`} className="btn btn-danger">

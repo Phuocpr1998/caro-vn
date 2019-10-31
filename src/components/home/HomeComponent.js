@@ -18,13 +18,9 @@ export default function HomeComponent(props) {
           </ListGroup>
         </Card.Body>
         <Card.Footer className="button_group">
-          <Card.Link className="mt-10">
-            <Button variant="success">
-              <Link className="link" to="/play">
-                Chơi Game
-              </Link>
-            </Button>
-          </Card.Link>
+          <Link className="mt-10 btn btn-success" to="/play">
+            Chơi Game
+          </Link>
           <Card.Link className="mt-10">
             <Button onClick={handleButtonLogout} variant="danger">
               Đăng xuất

@@ -9,8 +9,10 @@ const mapStateToProps = state => ({
 
 class HistoryListContainer extends React.Component {
   handleHistoryClick(index) {
-    const { dispatch } = this.props;
-    dispatch(handleOnHistoryClick(index));
+    const { dispatch, playType } = this.props;
+    if (playType === 2) {
+      dispatch(handleOnHistoryClick(index));
+    }
   }
 
   render() {

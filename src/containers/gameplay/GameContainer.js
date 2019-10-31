@@ -30,7 +30,8 @@ class GameContainer extends React.Component {
       user,
       winner,
       disconnectToServer,
-      partnerDisconnect
+      partnerDisconnect,
+      Xplayer
     } = this.props;
 
     if (error) {
@@ -43,6 +44,7 @@ class GameContainer extends React.Component {
       <>
         <TilteComponent title="Game caro online số một việt nam" />
         <Game
+          Xplayer={Xplayer}
           winner={winner}
           disconnectToServer={disconnectToServer}
           partnerDisconnect={partnerDisconnect}
