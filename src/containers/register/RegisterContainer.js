@@ -9,7 +9,8 @@ import {
   rePasswordRegisterChange,
   nameRegisterChange,
   birthdayRegisterChange,
-  requestPostRegisterError
+  requestPostRegisterError,
+  imageRegisterChange
 } from '../../actions';
 
 const mapStateToProps = state => ({
@@ -20,10 +21,16 @@ class RegisterContainer extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { dispatch, user } = this.props;
-    if (user.password !== user.repassword) {
+    if (user.photo === null || user.photo === undefined) {
       dispatch(
         requestPostRegisterError({
-          err: 'Password and Repassword is not the same'
+          err: 'Vui lòng chọn hình đại diện.'
+        })
+      );
+    } else if (user.password !== user.repassword) {
+      dispatch(
+        requestPostRegisterError({
+          err: 'Xác nhận mật khẩu sai.'
         })
       );
     } else {
@@ -34,6 +41,11 @@ class RegisterContainer extends React.Component {
   handleEmailChange(e) {
     const { dispatch } = this.props;
     dispatch(emailRegisterChange(e.target.value));
+  }
+
+  handleImageChange(photo) {
+    const { dispatch } = this.props;
+    dispatch(imageRegisterChange(photo));
   }
 
   handlePasswordChange(e) {
@@ -71,6 +83,7 @@ class RegisterContainer extends React.Component {
         handleRePasswordChange={e => this.handleRePasswordChange(e)}
         handleNameChange={e => this.handleNameChange(e)}
         handleBirthDayChange={e => this.handleBirthDayChange(e)}
+        handleImageChange={photo => this.handleImageChange(photo)}
         isRequest={isRequest}
         error={error}
         requestDone={requestDone}

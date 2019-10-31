@@ -5,7 +5,8 @@ const RegisterReducer = (
       password: '',
       repassword: '',
       name: '',
-      birthday: ''
+      birthday: '',
+      photo: null
     },
     error: null,
     isRequest: false,
@@ -44,6 +45,14 @@ const RegisterReducer = (
         user: {
           ...state.user,
           birthday: action.birthday
+        }
+      };
+    case 'REGISTER_IMAGE_CHANGE':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          photo: action.image
         }
       };
     case 'REGISTER_NAME_CHANGE':

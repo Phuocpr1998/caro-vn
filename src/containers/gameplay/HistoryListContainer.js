@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
 
 const randomPosition = squares => {
   const max = Math.sqrt(squares.length);
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const i = Math.floor(Math.random() * (max - 1));
     const j = Math.floor(Math.random() * (max - 1));

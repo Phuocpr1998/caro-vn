@@ -38,6 +38,11 @@ export const emailRegisterChange = email => ({
   email
 });
 
+export const imageRegisterChange = image => ({
+  type: 'REGISTER_IMAGE_CHANGE',
+  image
+});
+
 export const passwordRegisterChange = password => ({
   type: 'REGISTER_PASSWORD_CHANGE',
   password

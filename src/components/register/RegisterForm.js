@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Image } from 'react-bootstrap';
+import ImageUploader from 'react-images-upload';
 import logo from '../../content/logo.png';
 import '../../content/form.css';
 import TitleComponent from '../title/TitleComponent';
@@ -13,6 +14,7 @@ export default function RegisterForm(props) {
     handleBirthDayChange,
     handlePasswordChange,
     handleRePasswordChange,
+    handleImageChange,
     isRequest,
     error
   } = props;
@@ -96,10 +98,22 @@ export default function RegisterForm(props) {
               required
             />
           </Form.Group>
+          <Form.Group controlId="formImage">
+            <Form.Label>Hình đại điện</Form.Label>
+            <ImageUploader
+              withIcon={false}
+              withPreview
+              singleImage
+              buttonText="Choose images"
+              onChange={handleImageChange}
+              imgExtension={['.jpg', '.png']}
+              maxFileSize={5242880}
+            />
+          </Form.Group>
           {message}
           <div className="button_group">
             {button}
-            <Link variant="success" className="link" to="/login">
+            <Link className="btn btn-success link" to="/login">
               Đăng nhập
             </Link>
           </div>

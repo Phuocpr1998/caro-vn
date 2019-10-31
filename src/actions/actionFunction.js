@@ -42,23 +42,24 @@ export function login(user) {
   };
 }
 
+const axios = require('axios');
+
 export function register(user) {
   // eslint-disable-next-line func-names
   return function(dispatch) {
     dispatch(requestPostRegister());
-    fetch(`${HostAPI}/user/register`, {
-      method: 'post',
+    const config = {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        birthday: user.birthday
-      })
-    }).then(
+        'content-type': 'multipart/form-data'
+      }
+    };
+    const formData = new FormData();
+    formData.append('photo', user.photo);
+    formData.append('email', user.email);
+    formData.append('password', user.password);
+    formData.append('name', user.name);
+    formData.append('birthday', user.birthday);
+    axios.post(`${HostAPI}/user/register`, formData, config).then(
       response => {
         if (response.status !== 200) {
           if (response.status !== 204) {
@@ -72,7 +73,12 @@ export function register(user) {
           response.json().then(json => dispatch(requestPostRegisterDone(json)));
         }
       },
-      error => dispatch(requestPostRegisterError(error))
+      () =>
+        dispatch(
+          requestPostRegisterError({
+            err: 'Đã có lỗi xảy ra trong quá trình đăng ký.'
+          })
+        )
     );
   };
 }
