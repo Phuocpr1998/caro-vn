@@ -1,3 +1,5 @@
+import machineIcon from '../content/machine_player.png';
+
 function checkWinner(squares, i, j, person) {
   const size = Math.sqrt(squares.length);
   // check hàng ngang
@@ -613,9 +615,12 @@ const GameReducer = (
       return {
         ...state,
         findingRoom: false,
-        userPlayer: null,
         playType: 2,
-        Xplayer: 0
+        userPlayer: {
+          name: 'Machine',
+          photo: machineIcon
+        },
+        Xplayer: 1 // bạn đánh trước
       };
     }
     case 'MOVE_PERMISION_CHANGE': {

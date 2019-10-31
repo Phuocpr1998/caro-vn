@@ -2,17 +2,40 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Board from '../../components/gameplay/Board';
 import { handleOnBoardClick, resetGame } from '../../actions';
-import { findRoom, findRoomFailed } from '../../actions/socketAction';
+import {
+  findRoom,
+  findRoomFailed,
+  receiverMovePosition
+} from '../../actions/socketAction';
 
 const mapStateToProps = state => ({
   ...state.GameReducer,
   user: state.ProfileReducer.user
 });
 
+const randomPosition = squares => {
+  const max = Math.sqrt(squares.length);
+  while (true) {
+    const i = Math.floor(Math.random() * (max - 1));
+    const j = Math.floor(Math.random() * (max - 1));
+
+    if (squares[i * max + j] === null || squares[i * max + j] === undefined) {
+      return { i, j };
+    }
+  }
+};
+
 class BoardContainer extends React.Component {
   handleClick = (i, j) => {
-    const { dispatch } = this.props;
+    const { dispatch, playType, squares } = this.props;
     dispatch(handleOnBoardClick(i, j));
+    if (playType === 2) {
+      // play with machine
+      const machinePosition = randomPosition(squares);
+      setTimeout(() => {
+        dispatch(receiverMovePosition(machinePosition.i, machinePosition.j));
+      }, 500);
+    }
   };
 
   resetGame() {

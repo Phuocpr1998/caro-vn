@@ -20,7 +20,11 @@ class ChatBoxContainer extends React.Component {
   }
 
   render() {
-    const { messages, messageChat } = this.props;
+    const { messages, messageChat, playType } = this.props;
+    if (playType === 2) {
+      // play with machine
+      return <></>;
+    }
     return (
       <ChatBox
         messages={messages}

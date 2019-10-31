@@ -3,18 +3,32 @@ import { Button } from 'react-bootstrap';
 import '../../content/Game.css';
 
 function ControlButton(props) {
-  const { handleUndo, handleGiveUp } = props;
-  return (
-    <>
-      <div className="title">Chức năng</div>
-      <div className="control-button">
+  const { handleUndo, handleGiveUp, handleExit, playType } = props;
+
+  let buttonGroup;
+  if (playType !== 2) {
+    buttonGroup = (
+      <>
         <Button type="button" variant="primary" onClick={handleUndo}>
           Xin lùi cờ
         </Button>
         <Button type="button" variant="danger" onClick={handleGiveUp}>
           Xin thua
         </Button>
-      </div>
+      </>
+    );
+  } else {
+    buttonGroup = (
+      <Button type="button" variant="danger" onClick={handleExit}>
+        Thoát
+      </Button>
+    );
+  }
+
+  return (
+    <>
+      <div className="title">Chức năng</div>
+      <div className="control-button">{buttonGroup}</div>
     </>
   );
 }
