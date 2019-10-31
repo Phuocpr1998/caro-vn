@@ -64,14 +64,14 @@ export function register(user) {
       response => {
         if (response.status !== 200) {
           if (response.status !== 204) {
-            response
-              .json()
-              .then(err => dispatch(requestPostRegisterError(err)));
+            dispatch(requestPostRegisterError(response.data));
           } else {
             dispatch(requestPostRegister());
           }
+        } else if (response.data.err) {
+          dispatch(requestPostRegisterError(response.data));
         } else {
-          response.json().then(json => dispatch(requestPostRegisterDone(json)));
+          dispatch(requestPostRegisterDone());
         }
       },
       () =>

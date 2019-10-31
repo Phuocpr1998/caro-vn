@@ -81,9 +81,8 @@ export const requestPostRegister = () => ({
   type: 'REQUEST_REGISTER'
 });
 
-export const requestPostRegisterDone = user => ({
-  type: 'REQUEST_REGISTER_DONE',
-  user
+export const requestPostRegisterDone = () => ({
+  type: 'REQUEST_REGISTER_DONE'
 });
 
 export const requestPostRegisterError = error => ({

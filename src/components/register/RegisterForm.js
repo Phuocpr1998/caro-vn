@@ -37,7 +37,7 @@ export default function RegisterForm(props) {
   if (error !== undefined && error !== null) {
     message = (
       <Form.Group variant="danger">
-        <Form.Label variant="danger">{error.err}</Form.Label>
+        <Form.Label className="text-danger">{error.err}</Form.Label>
       </Form.Group>
     );
   } else {

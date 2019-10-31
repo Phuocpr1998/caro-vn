@@ -45,7 +45,6 @@ class RegisterContainer extends React.Component {
 
   handleImageChange(photo) {
     const { dispatch } = this.props;
-    console.log('handleImageChange', photo.target.files);
     dispatch(imageRegisterChange(photo.target.files[0]));
   }
 
