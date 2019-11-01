@@ -347,7 +347,7 @@ const GameReducer = (
       if (
         result.isWin &&
         playType !== 2 &&
-        ((Xplayer === 1 && value === 'O') || (Xplayer === 1 && value === 'X'))
+        ((Xplayer === 1 && value === 'O') || (Xplayer === 2 && value === 'X'))
       ) {
         socketClient.emit('loser');
       }
