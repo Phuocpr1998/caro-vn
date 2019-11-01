@@ -11,7 +11,7 @@ import {
   birthdayRegisterChange,
   requestPostRegisterError,
   imageRegisterChange
-} from '../../actions';
+} from '../../actions/actionRegister';
 
 const mapStateToProps = state => ({
   ...state.RegisterReducer

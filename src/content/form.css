@@ -9,6 +9,9 @@
   margin-bottom: 10px;
   align-items: center;
 }
+.button_group a {
+  margin: 10px;
+}
 
 .form .button_group button {
   margin: 5px !important;

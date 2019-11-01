@@ -34,7 +34,7 @@ export default function LoginForm(props) {
   if (error !== undefined && error !== null) {
     message = (
       <Form.Group>
-        <Form.Label>{error}</Form.Label>
+        <Form.Label className="text-danger">{error}</Form.Label>
       </Form.Group>
     );
   } else {

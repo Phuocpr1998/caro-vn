@@ -2,7 +2,10 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginForm from '../../components/login/LoginForm';
-import { emailLoginChange, passwordLoginChange } from '../../actions';
+import {
+  emailLoginChange,
+  passwordLoginChange
+} from '../../actions/actionLogin';
 import { login } from '../../actions/actionFunction';
 
 const mapStateToProps = state => ({

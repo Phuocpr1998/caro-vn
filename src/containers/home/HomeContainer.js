@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HomeComponent from '../../components/home/HomeComponent';
-import { requestLogout, requestLogoutDone } from '../../actions';
+import { requestLogout, requestLogoutDone } from '../../actions/actionProfile';
 import { getProfile } from '../../actions/actionFunction';
 import WaitingPage from '../../components/layout/WaitingPage';
 

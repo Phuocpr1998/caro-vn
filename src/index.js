@@ -13,6 +13,7 @@ import LoginContainer from './containers/login/LoginContainer';
 import RegisterContainer from './containers/register/RegisterContainer';
 import HomeContainer from './containers/home/HomeContainer';
 import AccountContainer from './containers/account/AccountContainer';
+import UpdateProfileContainer from './containers/update/UpdateProfileContainer';
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
@@ -25,6 +26,9 @@ ReactDOM.render(
         </Route>
         <Route path="/register">
           <RegisterContainer />
+        </Route>
+        <Route path="/update-profile">
+          <UpdateProfileContainer />
         </Route>
         <Route path="/play">
           <GameContainer />

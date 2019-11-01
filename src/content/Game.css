@@ -213,3 +213,10 @@ ul {
 .control-button button {
   margin: 5px;
 }
+
+.profile-img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}

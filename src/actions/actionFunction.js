@@ -1,16 +1,26 @@
 import fetch from 'cross-fetch';
 
 import {
-  requestPostLogin,
-  requestPostLoginDone,
-  requestPostLoginError,
-  requestPostRegister,
-  requestPostRegisterError,
-  requestPostRegisterDone,
   requestGetProfileInfo,
   requestGetProfileInfoError,
   requestGetProfileInfoDone
-} from './index';
+} from './actionProfile';
+import {
+  requestPostRegister,
+  requestPostRegisterError,
+  requestPostRegisterDone
+} from './actionRegister';
+import {
+  requestPostLogin,
+  requestPostLoginDone,
+  requestPostLoginError
+} from './actionLogin';
+import {
+  requestPostUpdateError,
+  requestPostUpdate,
+  requestPostUpdateDone,
+  userUpdateChange
+} from './actionUpdate';
 import { HostAPI } from '../config';
 
 export function login(user) {
@@ -31,13 +41,15 @@ export function login(user) {
       response => {
         if (response.status !== 200) {
           if (response.status !== 204) {
-            dispatch(requestPostLoginError('Username or password incorrect'));
+            dispatch(
+              requestPostLoginError('Thông tin đăng nhập không chính xác')
+            );
           }
         } else {
           response.json().then(json => dispatch(requestPostLoginDone(json)));
         }
       },
-      error => dispatch(requestPostLoginError(error))
+      () => dispatch(requestPostLoginError('Đã có lỗi xảy ra'))
     );
   };
 }
@@ -84,7 +96,53 @@ export function register(user) {
   };
 }
 
-export function getProfile() {
+export function update(user) {
+  const token = localStorage.getItem('userToken');
+  if (token === null) {
+    // eslint-disable-next-line func-names
+    return function(dispatch) {
+      dispatch(requestPostUpdateError('Token not found'));
+    };
+  }
+  // eslint-disable-next-line func-names
+  return function(dispatch) {
+    dispatch(requestPostUpdate());
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const formData = new FormData();
+    formData.append('email', user.email);
+    formData.append('name', user.name);
+    formData.append('birthday', user.birthday);
+    axios.post(`${HostAPI}/user/update`, formData, config).then(
+      response => {
+        if (response.status !== 200) {
+          if (response.status !== 204) {
+            dispatch(requestPostUpdateError(response.data));
+          } else {
+            dispatch(requestPostUpdate());
+          }
+        } else if (response.data.err) {
+          dispatch(requestPostUpdateError(response.data));
+        } else {
+          dispatch(requestPostUpdateDone());
+        }
+      },
+      () =>
+        dispatch(
+          requestPostRegisterError({
+            err: 'Đã có lỗi xảy ra trong quá trình đăng ký.'
+          })
+        )
+    );
+  };
+}
+
+export function getProfile(fc) {
   const token = localStorage.getItem('userToken');
   if (token === null) {
     // eslint-disable-next-line func-names
@@ -113,9 +171,13 @@ export function getProfile() {
             dispatch(requestGetProfileInfo());
           }
         } else {
-          response
-            .json()
-            .then(json => dispatch(requestGetProfileInfoDone(json)));
+          response.json().then(json => {
+            if (fc === 'update') {
+              dispatch(userUpdateChange(json));
+            } else {
+              dispatch(requestGetProfileInfoDone(json));
+            }
+          });
         }
       },
       error => dispatch(requestGetProfileInfoError(error))
