@@ -13,7 +13,11 @@ const UpdateProfileReducer = (
         ...state,
         userUpdate: {
           ...action.userUpdate,
-          birthday: action.userUpdate.birthday.slice(0, 10)
+          birthday:
+            action.userUpdate.birthday !== null &&
+            action.userUpdate.birthday !== undefined
+              ? action.userUpdate.birthday.slice(0, 10)
+              : null
         }
       };
     case 'UPDATE_EMAIL_CHANGE':

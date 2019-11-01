@@ -25,7 +25,10 @@ const ProfileReducer = (
         requestDone: true,
         user: {
           ...action.user,
-          birthday: action.user.birthday.slice(0, 10)
+          birthday:
+            action.user.birthday !== null && action.user.birthday !== undefined
+              ? action.user.birthday.slice(0, 10)
+              : null
         },
         isRequest: false,
         logout: false
