@@ -49,6 +49,41 @@ export const requestGiveUpTimeout = user => ({
   user
 });
 
+export const requestReconcile = user => ({
+  type: 'SOCKET_REQUEST_RECONCILE',
+  user
+});
+
+export const receiverRequestReconcile = user => ({
+  type: 'SOCKET_RECEVIER_REQUEST_RECONCILE',
+  user
+});
+
+export const sendResponseReconcileAccept = user => ({
+  type: 'SOCKET_SEND_RESPONSE_RECONCILE_ACCEPT',
+  user
+});
+
+export const sendResponseReconcileCancel = user => ({
+  type: 'SOCKET_SEND_RESPONSE_RECONCILE_CANCEL',
+  user
+});
+
+export const receiverResponseReconcileAccept = user => ({
+  type: 'SOCKET_RECEVIER_RESPONSE_RECONCILE_ACCEPT',
+  user
+});
+
+export const receiverResponseReconcileCancel = user => ({
+  type: 'SOCKET_RECEVIER_RESPONSE_RECONCILE_CANCEL',
+  user
+});
+
+export const requestReconcileTimeout = user => ({
+  type: 'SOCKET_REQUEST_RECONCILE_TIMEOUT',
+  user
+});
+
 export const findRoomFailed = () => ({
   type: 'SOCKET_FIND_ROOM_FAILED'
 });
@@ -97,11 +132,18 @@ export function connectToSocketServer() {
       dispatch(receiverRequestGiveUp());
     });
     socketClient.on('give_up_accept', () => {
-      console.log('give_up_accept');
       dispatch(receiverResponseGiveUpAccept());
     });
     socketClient.on('give_up_cancel', () => {
-      console.log('give_up_cancel');
+      dispatch(receiverResponseGiveUpCancel());
+    });
+    socketClient.on('reconcile', () => {
+      dispatch(receiverRequestGiveUp());
+    });
+    socketClient.on('reconcile_accept', () => {
+      dispatch(receiverResponseGiveUpAccept());
+    });
+    socketClient.on('reconcile_cancel', () => {
       dispatch(receiverResponseGiveUpCancel());
     });
     dispatch(updateSocketClient(socketClient));
