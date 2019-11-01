@@ -344,13 +344,6 @@ const GameReducer = (
 
       const value = squares[i * size + j];
       const result = checkWinner(squares, i, j, value);
-      if (
-        result.isWin &&
-        playType !== 2 &&
-        ((Xplayer === 1 && value === 'O') || (Xplayer === 2 && value === 'X'))
-      ) {
-        socketClient.emit('loser');
-      }
       return {
         ...state,
         winner: result.isWin ? value : null,
@@ -361,7 +354,14 @@ const GameReducer = (
       };
     }
     case 'ON_RECEIVER_MOVE': {
-      const { squares, winner, history, Xplayer, playType } = state;
+      const {
+        squares,
+        winner,
+        history,
+        Xplayer,
+        playType,
+        socketClient
+      } = state;
       let { indexHistorySelect } = state;
       if (playType !== 2) {
         if (
@@ -401,6 +401,9 @@ const GameReducer = (
 
       const value = squares[i * size + j];
       const result = checkWinner(squares, i, j, value);
+      if (result.isWin && playType !== 2) {
+        socketClient.emit('loser');
+      }
       return {
         ...state,
         winner: result.isWin ? value : null,
