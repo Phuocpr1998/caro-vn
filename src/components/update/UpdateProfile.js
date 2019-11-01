@@ -9,9 +9,6 @@ export default function UpdateProfile(props) {
     handleSubmit,
     handleNameChange,
     handleBirthDayChange,
-    handlePasswordChange,
-    handleRePasswordChange,
-    handleImageChange,
     isRequest,
     error,
     user
@@ -50,6 +47,11 @@ export default function UpdateProfile(props) {
         <div className="text-center">
           <Image className="profile-img" src={user.photo} />
         </div>
+        <div className="text-center">
+          <Link className="btn text-primary" to="/update-profile/avartar">
+            Đổi ảnh đại diện
+          </Link>
+        </div>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Địa chỉ email</Form.Label>
@@ -79,29 +81,17 @@ export default function UpdateProfile(props) {
               required
             />
           </Form.Group>
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group controlId="formBasicName">
             <Form.Label>Mật khẩu</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Nhập mật khẩu"
-              onChange={handlePasswordChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicRePassword">
-            <Form.Label>Xác nhận mật khẩu</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Nhập xác nhận mật khẩu"
-              onChange={handleRePasswordChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="formImage">
-            <Form.Label>Hình đại điện</Form.Label>
-            <Form.Control
-              type="file"
-              placeholder="Nhập xác nhận mật khẩu"
-              onChange={handleImageChange}
-            />
+            <div className="button_group">
+              <Form.Control type="password" value="password" disabled />
+              <Link
+                className="btn btn-primary link"
+                to="/update-profile/password"
+              >
+                Sửa
+              </Link>
+            </div>
           </Form.Group>
           {message}
           <div className="button_group">

@@ -3,12 +3,9 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { getProfile, update } from '../../actions/actionFunction';
 import {
-  passwordUpdateChange,
-  rePasswordUpdateChange,
   nameUpdateChange,
   birthdayUpdateChange,
-  requestPostUpdateError,
-  imageUpdateChange
+  requestPostUpdateError
 } from '../../actions/actionUpdate';
 import UpdateProfile from '../../components/update/UpdateProfile';
 import WaitingPage from '../../components/layout/WaitingPage';
@@ -53,21 +50,6 @@ class UpdateProfileContainer extends React.Component {
     }
   }
 
-  handleImageChange(photo) {
-    const { dispatch } = this.props;
-    dispatch(imageUpdateChange(photo.target.files[0]));
-  }
-
-  handlePasswordChange(e) {
-    const { dispatch } = this.props;
-    dispatch(passwordUpdateChange(e.target.value));
-  }
-
-  handleRePasswordChange(e) {
-    const { dispatch } = this.props;
-    dispatch(rePasswordUpdateChange(e.target.value));
-  }
-
   handleNameChange(e) {
     const { dispatch } = this.props;
     dispatch(nameUpdateChange(e.target.value));
@@ -89,8 +71,6 @@ class UpdateProfileContainer extends React.Component {
     return (
       <UpdateProfile
         handleSubmit={e => this.handleSubmit(e)}
-        handlePasswordChange={e => this.handlePasswordChange(e)}
-        handleRePasswordChange={e => this.handleRePasswordChange(e)}
         handleNameChange={e => this.handleNameChange(e)}
         handleBirthDayChange={e => this.handleBirthDayChange(e)}
         handleImageChange={photo => this.handleImageChange(photo)}

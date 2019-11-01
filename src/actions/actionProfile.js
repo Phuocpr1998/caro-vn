@@ -19,3 +19,21 @@ export const requestGetProfileInfoError = error => ({
   type: 'REQUEST_GET_PROFILE_FAIL',
   error
 });
+
+export const updateAvarter = () => ({
+  type: 'REQUEST_UPDATE_AVARTAR'
+});
+
+export const updatePassword = () => ({
+  type: 'REQUEST_UPDATE_PASSWORD'
+});
+
+export const requestUpdateAvarterError = error => ({
+  type: 'REQUEST_UPDATE_AVARTAR_ERROR',
+  error
+});
+
+export const requestUpdatePasswordError = error => ({
+  type: 'REQUEST_UPDATE_PASSWORD_ERROR',
+  error
+});

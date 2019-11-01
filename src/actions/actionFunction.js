@@ -3,7 +3,9 @@ import fetch from 'cross-fetch';
 import {
   requestGetProfileInfo,
   requestGetProfileInfoError,
-  requestGetProfileInfoDone
+  requestGetProfileInfoDone,
+  requestUpdatePasswordError,
+  requestUpdateAvarterError
 } from './actionProfile';
 import {
   requestPostRegister,
@@ -89,53 +91,7 @@ export function register(user) {
       () =>
         dispatch(
           requestPostRegisterError({
-            err: 'Đã có lỗi xảy ra trong quá trình đăng ký.'
-          })
-        )
-    );
-  };
-}
-
-export function update(user) {
-  const token = localStorage.getItem('userToken');
-  if (token === null) {
-    // eslint-disable-next-line func-names
-    return function(dispatch) {
-      dispatch(requestPostUpdateError('Token not found'));
-    };
-  }
-  // eslint-disable-next-line func-names
-  return function(dispatch) {
-    dispatch(requestPostUpdate());
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: `Bearer ${token}`
-      }
-    };
-    const formData = new FormData();
-    formData.append('email', user.email);
-    formData.append('name', user.name);
-    formData.append('birthday', user.birthday);
-    axios.post(`${HostAPI}/user/update`, formData, config).then(
-      response => {
-        if (response.status !== 200) {
-          if (response.status !== 204) {
-            dispatch(requestPostUpdateError(response.data));
-          } else {
-            dispatch(requestPostUpdate());
-          }
-        } else if (response.data.err) {
-          dispatch(requestPostUpdateError(response.data));
-        } else {
-          dispatch(requestPostUpdateDone());
-        }
-      },
-      () =>
-        dispatch(
-          requestPostRegisterError({
-            err: 'Đã có lỗi xảy ra trong quá trình đăng ký.'
+            message: 'Đã có lỗi xảy ra trong quá trình đăng ký.'
           })
         )
     );
@@ -181,6 +137,141 @@ export function getProfile(fc) {
         }
       },
       error => dispatch(requestGetProfileInfoError(error))
+    );
+  };
+}
+
+export function update(user) {
+  const token = localStorage.getItem('userToken');
+  if (token === null) {
+    // eslint-disable-next-line func-names
+    return function(dispatch) {
+      dispatch(requestPostUpdateError('Token not found'));
+    };
+  }
+  // eslint-disable-next-line func-names
+  return function(dispatch) {
+    dispatch(requestPostUpdate());
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const formData = new FormData();
+    formData.append('email', user.email);
+    formData.append('name', user.name);
+    formData.append('birthday', user.birthday);
+    axios.post(`${HostAPI}/user/update`, formData, config).then(
+      response => {
+        if (response.status !== 200) {
+          if (response.status !== 204) {
+            dispatch(requestPostUpdateError(response.data));
+          } else {
+            dispatch(requestPostUpdate());
+          }
+        } else if (response.data.err) {
+          dispatch(requestPostUpdateError(response.data));
+        } else {
+          dispatch(requestPostUpdateDone());
+        }
+      },
+      () =>
+        dispatch(
+          requestPostUpdateError({
+            message: 'Đã có lỗi xảy ra trong quá trình cập nhật.'
+          })
+        )
+    );
+  };
+}
+
+export function updatePasswordOfUser(user) {
+  const token = localStorage.getItem('userToken');
+  if (token === null) {
+    // eslint-disable-next-line func-names
+    return function(dispatch) {
+      dispatch(requestUpdatePasswordError('Token not found'));
+    };
+  }
+  // eslint-disable-next-line func-names
+  return function(dispatch) {
+    dispatch(requestPostUpdate());
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const formData = new FormData();
+    formData.append('password', user.password);
+    axios.post(`${HostAPI}/user/update-password`, formData, config).then(
+      response => {
+        if (response.status !== 200) {
+          if (response.status !== 204) {
+            dispatch(requestUpdatePasswordError(response.data));
+          } else {
+            dispatch(requestPostUpdate());
+          }
+        } else if (response.data.err) {
+          dispatch(requestUpdatePasswordError(response.data));
+        } else {
+          dispatch(requestPostUpdateDone());
+        }
+      },
+      () =>
+        dispatch(
+          requestUpdatePasswordError({
+            message: 'Đã có lỗi xảy ra trong quá trình cập nhật.'
+          })
+        )
+    );
+  };
+}
+
+export function updateAvartar(user) {
+  const token = localStorage.getItem('userToken');
+  if (token === null) {
+    // eslint-disable-next-line func-names
+    return function(dispatch) {
+      dispatch(requestUpdateAvarterError('Token not found'));
+    };
+  }
+  // eslint-disable-next-line func-names
+  return function(dispatch) {
+    dispatch(requestPostUpdate());
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const formData = new FormData();
+    formData.append('photo', user.photo);
+    axios.post(`${HostAPI}/user/update-photo`, formData, config).then(
+      response => {
+        if (response.status !== 200) {
+          if (response.status !== 204) {
+            dispatch(requestUpdateAvarterError(response.data));
+          } else {
+            dispatch(requestPostUpdate());
+          }
+        } else if (response.data.err) {
+          dispatch(requestUpdateAvarterError(response.data));
+        } else {
+          dispatch(requestPostUpdateDone());
+          dispatch(getProfile());
+        }
+      },
+      () =>
+        dispatch(
+          requestUpdatePasswordError({
+            err: 'Đã có lỗi xảy ra trong quá trình cập nhật.'
+          })
+        )
     );
   };
 }

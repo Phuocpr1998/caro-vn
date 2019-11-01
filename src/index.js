@@ -14,6 +14,8 @@ import RegisterContainer from './containers/register/RegisterContainer';
 import HomeContainer from './containers/home/HomeContainer';
 import AccountContainer from './containers/account/AccountContainer';
 import UpdateProfileContainer from './containers/update/UpdateProfileContainer';
+import UpdatePasswordContainer from './containers/update/UpdatePasswordContainer';
+import UpdateAvartarContainer from './containers/update/UpdateAvartarContainer';
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
@@ -26,6 +28,12 @@ ReactDOM.render(
         </Route>
         <Route path="/register">
           <RegisterContainer />
+        </Route>
+        <Route path="/update-profile/password">
+          <UpdatePasswordContainer />
+        </Route>
+        <Route path="/update-profile/avartar">
+          <UpdateAvartarContainer />
         </Route>
         <Route path="/update-profile">
           <UpdateProfileContainer />

@@ -45,14 +45,6 @@ const UpdateProfileReducer = (
           birthday: action.birthday
         }
       };
-    case 'UPDATE_IMAGE_CHANGE':
-      return {
-        ...state,
-        userUpdate: {
-          ...state.userUpdate,
-          photo: action.image
-        }
-      };
     case 'UPDATE_NAME_CHANGE':
       return {
         ...state,
@@ -74,6 +66,8 @@ const UpdateProfileReducer = (
         error: null,
         requestDone: true,
         userUpdate: null,
+        updatePassword: false,
+        updateAvatar: false,
         user: null
       };
     case 'REQUEST_UPDATE_FAIL':

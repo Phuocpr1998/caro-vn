@@ -3,11 +3,6 @@ export const emailUpdateChange = email => ({
   email
 });
 
-export const imageUpdateChange = image => ({
-  type: 'UPDATE_IMAGE_CHANGE',
-  image
-});
-
 export const passwordUpdateChange = password => ({
   type: 'UPDATE_PASSWORD_CHANGE',
   password

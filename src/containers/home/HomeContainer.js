@@ -12,8 +12,8 @@ const mapStateToProps = state => ({
 
 class HomeContainer extends React.Component {
   componentDidMount() {
-    const { dispatch, isRequest, user, logout } = this.props;
-    if (user === null && !isRequest) {
+    const { dispatch, user, logout } = this.props;
+    if (user === null) {
       dispatch(getProfile());
     } else if (logout) {
       dispatch(requestLogoutDone());
@@ -27,13 +27,13 @@ class HomeContainer extends React.Component {
   }
 
   render() {
-    const { user, error, requestDone, isRequest, logout } = this.props;
+    const { user, error, logout } = this.props;
 
-    if ((!isRequest && error !== null) || logout) {
+    if (error !== null || logout) {
       return <Redirect to="/login" />;
     }
 
-    if (user === null || !requestDone) {
+    if (user === null) {
       return <WaitingPage />;
     }
 
