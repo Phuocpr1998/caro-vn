@@ -23,7 +23,10 @@ const ProfileReducer = (
         ...state,
         error: null,
         requestDone: true,
-        user: action.user,
+        user: {
+          ...action.user,
+          birthday: action.user.birthday.slice(0, 10)
+        },
         isRequest: false,
         logout: false
       };

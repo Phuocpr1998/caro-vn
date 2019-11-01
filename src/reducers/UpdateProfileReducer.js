@@ -11,7 +11,10 @@ const UpdateProfileReducer = (
     case 'UPDATE_USER_CHANGE':
       return {
         ...state,
-        userUpdate: action.userUpdate
+        userUpdate: {
+          ...action.userUpdate,
+          birthday: action.userUpdate.birthday.slice(0, 10)
+        }
       };
     case 'UPDATE_EMAIL_CHANGE':
       return {

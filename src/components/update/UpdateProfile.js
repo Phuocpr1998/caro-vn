@@ -78,6 +78,7 @@ export default function UpdateProfile(props) {
               type="date"
               placeholder="Nhập ngày sinh"
               onChange={handleBirthDayChange}
+              value={user.birthday}
               required
             />
           </Form.Group>
