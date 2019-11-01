@@ -344,6 +344,13 @@ const GameReducer = (
 
       const value = squares[i * size + j];
       const result = checkWinner(squares, i, j, value);
+      if (
+        result.isWin &&
+        playType !== 2 &&
+        ((Xplayer === 1 && value === 'O') || (Xplayer === 1 && value === 'X'))
+      ) {
+        socketClient.emit('loser');
+      }
       return {
         ...state,
         winner: result.isWin ? value : null,

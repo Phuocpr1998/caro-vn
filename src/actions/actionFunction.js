@@ -26,8 +26,7 @@ import {
 import { HostAPI } from '../config';
 
 export function login(user) {
-  // eslint-disable-next-line func-names
-  return function(dispatch) {
+  return dispatch => {
     dispatch(requestPostLogin());
     fetch(`${HostAPI}/user/login`, {
       method: 'post',
@@ -59,8 +58,7 @@ export function login(user) {
 const axios = require('axios');
 
 export function register(user) {
-  // eslint-disable-next-line func-names
-  return function(dispatch) {
+  return dispatch => {
     dispatch(requestPostRegister());
     const config = {
       headers: {
@@ -101,13 +99,11 @@ export function register(user) {
 export function getProfile(fc) {
   const token = localStorage.getItem('userToken');
   if (token === null) {
-    // eslint-disable-next-line func-names
-    return function(dispatch) {
+    return dispatch => {
       dispatch(requestGetProfileInfoError('Token not found'));
     };
   }
-  // eslint-disable-next-line func-names
-  return function(dispatch) {
+  return dispatch => {
     dispatch(requestGetProfileInfo());
     fetch(`${HostAPI}/me`, {
       method: 'get',
@@ -144,13 +140,11 @@ export function getProfile(fc) {
 export function update(user) {
   const token = localStorage.getItem('userToken');
   if (token === null) {
-    // eslint-disable-next-line func-names
-    return function(dispatch) {
+    return dispatch => {
       dispatch(requestPostUpdateError('Token not found'));
     };
   }
-  // eslint-disable-next-line func-names
-  return function(dispatch) {
+  return dispatch => {
     dispatch(requestPostUpdate());
     const config = {
       headers: {
@@ -190,13 +184,11 @@ export function update(user) {
 export function updatePasswordOfUser(user) {
   const token = localStorage.getItem('userToken');
   if (token === null) {
-    // eslint-disable-next-line func-names
-    return function(dispatch) {
+    return dispatch => {
       dispatch(requestUpdatePasswordError('Token not found'));
     };
   }
-  // eslint-disable-next-line func-names
-  return function(dispatch) {
+  return dispatch => {
     dispatch(requestPostUpdate());
     const config = {
       headers: {
@@ -231,16 +223,52 @@ export function updatePasswordOfUser(user) {
   };
 }
 
+export function updatePointOfUser(socketID) {
+  const token = localStorage.getItem('userToken');
+  if (token === null) {
+    return () => {
+      console.log('UpdatePointOfUser: Token not found');
+    };
+  }
+  return () => {
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const formData = new FormData();
+    formData.append('socketID', socketID);
+    axios.post(`${HostAPI}/user/update-point`, formData, config).then(
+      response => {
+        if (response.status !== 200) {
+          if (response.status !== 204) {
+            console.log(`UpdatePointOfUser: ${response.data}`);
+          } else {
+            console.log(`UpdatePointOfUser: ${response.data}`);
+          }
+        } else if (response.data.err) {
+          console.log(`UpdatePointOfUser: ${response.data}`);
+        } else {
+          console.log(`UpdatePointOfUser: Done`);
+        }
+      },
+      () => {
+        console.log(`UpdatePointOfUser: Failed`);
+      }
+    );
+  };
+}
+
 export function updateAvartar(user) {
   const token = localStorage.getItem('userToken');
   if (token === null) {
-    // eslint-disable-next-line func-names
-    return function(dispatch) {
+    return dispatch => {
       dispatch(requestUpdateAvarterError('Token not found'));
     };
   }
-  // eslint-disable-next-line func-names
-  return function(dispatch) {
+  return dispatch => {
     dispatch(requestPostUpdate());
     const config = {
       headers: {

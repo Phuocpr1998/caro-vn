@@ -1,5 +1,6 @@
 import socketIOClient from 'socket.io-client';
 import { SocketServer } from '../config/index';
+import { updatePointOfUser } from './actionFunction';
 
 export const disconnectToSocketServer = () => ({
   type: 'SOCKET_DISCONNECT'
@@ -130,6 +131,9 @@ export function connectToSocketServer() {
     );
     socketClient.on('give_up', () => {
       dispatch(receiverRequestGiveUp());
+    });
+    socketClient.on('winner', data => {
+      dispatch(updatePointOfUser(data));
     });
     socketClient.on('give_up_accept', () => {
       dispatch(receiverResponseGiveUpAccept());
