@@ -16,8 +16,8 @@ const mapStateToProps = state => ({
 
 class ReconcileContainer extends React.Component {
   handleAccept() {
-    const { dispatch, user, isReceiverRequestReconcile } = this.props;
-    if (isReceiverRequestReconcile) {
+    const { dispatch, user, isRequestReconcile } = this.props;
+    if (isRequestReconcile) {
       dispatch(requestReconcile(user));
       setTimeout(() => {
         const { isRequesting } = this.props;
@@ -31,8 +31,8 @@ class ReconcileContainer extends React.Component {
   }
 
   handleCancel() {
-    const { dispatch, isReceiverRequestReconcile } = this.props;
-    if (isReceiverRequestReconcile) {
+    const { dispatch, isRequestReconcile } = this.props;
+    if (isRequestReconcile) {
       dispatch(reconcileCancel());
     } else {
       dispatch(sendResponseReconcileCancel());

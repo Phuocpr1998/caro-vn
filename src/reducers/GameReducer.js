@@ -594,7 +594,7 @@ const GameReducer = (
         ...state,
         isRequesting: false,
         isRequestGiveUp: false,
-        isReceiverRequestReconcile: false,
+        isReceiverRequestGiveUp: false,
         messages
       };
     }
