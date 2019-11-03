@@ -31,9 +31,11 @@ class GiveUpContainer extends React.Component {
   }
 
   handleCancel() {
-    const { dispatch, isRequestGiveUp } = this.props;
+    const { dispatch, isRequestGiveUp, isRequesting } = this.props;
     if (isRequestGiveUp) {
-      dispatch(giveUpCancel());
+      if (!isRequesting) {
+        dispatch(giveUpCancel());
+      }
     } else {
       dispatch(sendResponseGiveUpCancel());
     }

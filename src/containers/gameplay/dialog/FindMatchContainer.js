@@ -31,9 +31,12 @@ class FindMatchContainer extends React.Component {
 
   handleClose() {
     const { show } = this.state;
-    this.setState({
-      show: !show
-    });
+    const { findingRoom } = this.props;
+    if (!findingRoom) {
+      this.setState({
+        show: !show
+      });
+    }
   }
 
   handleFightWithOther() {

@@ -31,9 +31,11 @@ class ReconcileContainer extends React.Component {
   }
 
   handleCancel() {
-    const { dispatch, isRequestReconcile } = this.props;
+    const { dispatch, isRequestReconcile, isRequesting } = this.props;
     if (isRequestReconcile) {
-      dispatch(reconcileCancel());
+      if (!isRequesting) {
+        dispatch(reconcileCancel());
+      }
     } else {
       dispatch(sendResponseReconcileCancel());
     }
