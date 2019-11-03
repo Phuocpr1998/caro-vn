@@ -24,15 +24,15 @@ ul {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 15px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 30px;
+  height: 30px;
+  width: 30px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
 }
 
 .playerX {
@@ -48,15 +48,15 @@ ul {
   color: white;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 15px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 30px;
+  height: 30px;
+  width: 30px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
 }
 
 .square:focus {
@@ -100,6 +100,7 @@ ul {
 .game-history .history {
   margin-top: 10px;
   font-weight: bold;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -128,8 +129,8 @@ ul {
 }
 
 .game-history .history-content {
-  max-height: 250px;
-  min-width: 400px;
+  max-height: 200px;
+  min-width: 300px;
   overflow: auto;
 }
 
@@ -144,7 +145,7 @@ ul {
 .game-message-chat .message-content {
   margin-top: 5px;
   max-height: 180px;
-  min-width: 400px;
+  min-width: 300px;
   border: olive;
   overflow-x: auto;
 }
