@@ -50,7 +50,7 @@ function Reconcile(props) {
     <>
       <Modal show={show}>
         <Modal.Header closeButton>
-          <Modal.Title className="modal-title">Đầu hàng</Modal.Title>
+          <Modal.Title className="modal-title">Cầu hòa</Modal.Title>
         </Modal.Header>
         {requestGiveUpAnimation}
         <Modal.Footer className="button-group-center">

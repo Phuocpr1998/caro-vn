@@ -153,13 +153,13 @@ export function connectToSocketServer() {
       dispatch(receiverRequestGiveUpTimeout());
     });
     socketClient.on('reconcile', () => {
-      dispatch(receiverRequestGiveUp());
+      dispatch(receiverRequestReconcile());
     });
     socketClient.on('reconcile_accept', () => {
-      dispatch(receiverResponseGiveUpAccept());
+      dispatch(receiverResponseReconcileAccept());
     });
     socketClient.on('reconcile_cancel', () => {
-      dispatch(receiverResponseGiveUpCancel());
+      dispatch(receiverResponseReconcileAccept());
     });
     socketClient.on('reconcile_timeout', () => {
       dispatch(receiverRequestReconcileTimeout());
