@@ -15,14 +15,14 @@ function Reconcile(props) {
   let requestGiveUpAnimation;
 
   if (isReceiverRequestReconcile) {
-    requestGiveUpAnimation = <Modal.Body>Đối thủ xin đầu hàng.</Modal.Body>;
+    requestGiveUpAnimation = <Modal.Body>Đối thủ xin hòa.</Modal.Body>;
   } else {
     requestGiveUpAnimation = isRequesting ? (
       <div className="loader-container">
         <div className="loader" />
       </div>
     ) : (
-      <Modal.Body>Xác nhận đầu hàng {user.name} ?</Modal.Body>
+      <Modal.Body>Xác nhận xin hòa {user.name} ?</Modal.Body>
     );
   }
 
