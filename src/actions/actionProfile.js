@@ -37,3 +37,7 @@ export const requestUpdatePasswordError = error => ({
   type: 'REQUEST_UPDATE_PASSWORD_ERROR',
   error
 });
+
+export const resetProfile = () => ({
+  type: 'RESET_PROFILE'
+});

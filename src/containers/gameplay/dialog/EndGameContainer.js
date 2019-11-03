@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import EndGame from '../../../components/gameplay/dialog/EndGame';
 import { resetGame } from '../../../actions';
+import { resetProfile } from '../../../actions/actionProfile';
 
 const mapStateToProps = state => ({
   ...state.GameReducer,
@@ -21,6 +22,7 @@ class EndGameContainer extends React.Component {
       show: false
     });
     const { dispatch } = this.props;
+    dispatch(resetProfile());
     dispatch(resetGame());
   }
 

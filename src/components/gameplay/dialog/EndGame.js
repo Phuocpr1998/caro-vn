@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
 import '../../../content/dialog.css';
 
 function EndGame({ show, handleClose, message }) {
@@ -11,9 +12,9 @@ function EndGame({ show, handleClose, message }) {
         </Modal.Header>
         <Modal.Body>{message}</Modal.Body>
         <Modal.Footer className="button-group-center">
-          <Button variant="primary" onClick={handleClose}>
+          <Link className="btn btn-primary" onClick={handleClose} to="/">
             Ván mới
-          </Button>
+          </Link>
         </Modal.Footer>
       </Modal>
     </>

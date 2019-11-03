@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Board from '../../components/gameplay/Board';
-import { handleOnBoardClick, resetGame } from '../../actions';
+import { handleOnBoardClick } from '../../actions';
 import {
   findRoom,
   findRoomFailed,
@@ -38,11 +38,6 @@ class BoardContainer extends React.Component {
     }
   };
 
-  resetGame() {
-    const { dispatch } = this.props;
-    dispatch(resetGame());
-  }
-
   findRoom() {
     const { dispatch, user } = this.props;
     dispatch(findRoom(user));
@@ -61,7 +56,6 @@ class BoardContainer extends React.Component {
         size={size}
         squares={squares}
         handleClick={(i, j) => this.handleClick(i, j)}
-        resetGame={() => this.resetGame()}
         findRoom={() => this.findRoom()}
         winPositions={winPositions}
       />

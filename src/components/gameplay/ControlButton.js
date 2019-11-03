@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import '../../content/Game.css';
 
 function ControlButton(props) {
@@ -19,9 +20,9 @@ function ControlButton(props) {
     );
   } else {
     buttonGroup = (
-      <Button type="button" variant="danger" onClick={handleExit}>
+      <Link className="btn btn-danger" onClick={handleExit} to="/">
         Thoát
-      </Button>
+      </Link>
     );
   }
 

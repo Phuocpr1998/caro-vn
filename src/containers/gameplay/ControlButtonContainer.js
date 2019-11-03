@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { giveUp, messageChatChange, resetGame } from '../../actions';
 import ControlButton from '../../components/gameplay/ControlButton';
+import { resetProfile } from '../../actions/actionProfile';
 
 const mapStateToProps = state => ({
   ...state.GameReducer
@@ -20,6 +21,7 @@ class ControlButtonContainer extends React.Component {
 
   handleExit() {
     const { dispatch } = this.props;
+    dispatch(resetProfile());
     dispatch(resetGame());
   }
 

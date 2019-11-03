@@ -18,6 +18,15 @@ const ProfileReducer = (
         isRequest: true,
         logout: false
       };
+    case 'RESET_PROFILE':
+      return {
+        user: null,
+        isRequest: false,
+        error: null,
+        requestDone: false,
+        logout: false,
+        playgame: false
+      };
     case 'REQUEST_GET_PROFILE_DONE':
       return {
         ...state,
