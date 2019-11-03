@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import '../../content/Game.css';
 
 function ControlButton(props) {
-  const { handleUndo, handleGiveUp, handleExit, playType } = props;
+  const { handleGiveUp, handleExit, playType, handleReconcile } = props;
 
   let buttonGroup;
   if (playType !== 2) {
     buttonGroup = (
       <>
-        <Button type="button" variant="primary" onClick={handleUndo}>
-          Xin lùi cờ
+        <Button type="button" variant="primary" onClick={handleReconcile}>
+          Xin hòa
         </Button>
         <Button type="button" variant="danger" onClick={handleGiveUp}>
           Xin thua

@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  requestGiveUp,
-  requestGiveUpTimeout,
-  sendResponseGiveUpAccept,
-  sendResponseGiveUpCancel
+  requestReconcile,
+  requestReconcileTimeout,
+  sendResponseReconcileAccept,
+  sendResponseReconcileCancel
 } from '../../../actions/socketAction';
-import { giveUpCancel } from '../../../actions';
+import { reconcileCancel } from '../../../actions';
 import Reconcile from '../../../components/gameplay/dialog/Reconcile';
 
 const mapStateToProps = state => ({
@@ -16,42 +16,42 @@ const mapStateToProps = state => ({
 
 class GiveUpContainer extends React.Component {
   handleAccept() {
-    const { dispatch, user, isRequestGiveUp } = this.props;
-    if (isRequestGiveUp) {
-      dispatch(requestGiveUp(user));
+    const { dispatch, user, isReceiverRequestReconcile } = this.props;
+    if (isReceiverRequestReconcile) {
+      dispatch(requestReconcile(user));
       setTimeout(() => {
         const { isRequesting } = this.props;
         if (isRequesting) {
-          dispatch(requestGiveUpTimeout());
+          dispatch(requestReconcileTimeout());
         }
       }, 15000);
     } else {
-      dispatch(sendResponseGiveUpAccept());
+      dispatch(sendResponseReconcileAccept());
     }
   }
 
   handleCancel() {
-    const { dispatch, isRequestGiveUp } = this.props;
-    if (isRequestGiveUp) {
-      dispatch(giveUpCancel());
+    const { dispatch, isReceiverRequestReconcile } = this.props;
+    if (isReceiverRequestReconcile) {
+      dispatch(reconcileCancel());
     } else {
-      dispatch(sendResponseGiveUpCancel());
+      dispatch(sendResponseReconcileCancel());
     }
   }
 
   render() {
     const {
       user,
-      isRequestGiveUp,
-      isReceiverRequestGiveUp,
+      isRequestReconcile,
+      isReceiverRequestReconcile,
       isRequesting
     } = this.props;
     return (
       <Reconcile
-        show={isRequestGiveUp || isReceiverRequestGiveUp}
+        show={isRequestReconcile || isReceiverRequestReconcile}
         user={user}
         isRequesting={isRequesting}
-        isReceiverRequestGiveUp={isReceiverRequestGiveUp}
+        isReceiverRequestReconcile={isReceiverRequestReconcile}
         handleAccept={() => this.handleAccept()}
         handleCancel={() => this.handleCancel()}
       />

@@ -282,6 +282,8 @@ const GameReducer = (
         disconnectToServer: false,
         notPermissionMove: false,
         isRequestGiveUp: false,
+        isRequestReconcile: false,
+        isReceiverRequestReconcile: false,
         isReceiverRequestGiveUp: false,
         isRequesting: false,
         indexHistorySelect: -1
@@ -617,12 +619,16 @@ const GameReducer = (
     }
     case 'SOCKET_RECEVIER_RESPONSE_GIVEUP_ACCEPT': {
       let { messages } = state;
-      const { userPlayer, Xplayer } = state;
+      const { userPlayer, Xplayer, socketClient, isRequestGiveUp } = state;
+      if (!isRequestGiveUp) {
+        return state;
+      }
       messages = messages.slice();
       messages.push({
         value: 'Đề nghị đầu hàng được chấp nhận',
         people: userPlayer
       });
+      socketClient.emit('loser');
       return {
         ...state,
         messages,
@@ -662,6 +668,115 @@ const GameReducer = (
         isRequesting: false,
         isRequestGiveUp: false,
         isReceiverRequestGiveUp: false,
+        messages
+      };
+    }
+    case 'REQUEST_RECONCILE': {
+      const { isRequestReconcile } = state;
+      if (isRequestReconcile) {
+        return state;
+      }
+      return {
+        ...state,
+        isRequestReconcile: true,
+        isRequesting: false
+      };
+    }
+    case 'REQUEST_RECONCILE_CANCEL': {
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestReconcile: false,
+        isReceiverRequestReconcile: false
+      };
+    }
+    case 'SOCKET_REQUEST_RECONCILE': {
+      const { socketClient } = state;
+      socketClient.emit('reconcile');
+      return {
+        ...state,
+        isRequesting: true,
+        isRequestReconcile: true,
+        isReceiverRequestReconcile: false
+      };
+    }
+    case 'SOCKET_RECEVIER_REQUEST_RECONCILE': {
+      return {
+        ...state,
+        isReceiverRequestReconcile: true
+      };
+    }
+    case 'SOCKET_SEND_RESPONSE_RECONCILE_ACCEPT': {
+      const { socketClient, Xplayer } = state;
+      socketClient.emit('reconcile_accept');
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestReconcile: false,
+        isReceiverRequestReconcile: false,
+        winner: Xplayer === 1 ? 'X' : 'O'
+      };
+    }
+    case 'SOCKET_SEND_RESPONSE_RECONCILE_CANCEL': {
+      const { socketClient } = state;
+      socketClient.emit('reconcile_cancel');
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestReconcile: false,
+        isReceiverRequestReconcile: false
+      };
+    }
+    case 'SOCKET_RECEVIER_RESPONSE_RECONCILE_ACCEPT': {
+      let { messages } = state;
+      const { userPlayer, Xplayer, isRequestReconcile } = state;
+      if (!isRequestReconcile) {
+        return state;
+      }
+      messages = messages.slice();
+      messages.push({
+        value: 'Đề nghị hòa được chấp nhận',
+        people: userPlayer
+      });
+      return {
+        ...state,
+        messages,
+        isRequesting: false,
+        isRequestReconcile: false,
+        isReceiverRequestReconcile: false,
+        winner: Xplayer === 1 ? 'X' : 'O'
+      };
+    }
+    case 'SOCKET_RECEVIER_RESPONSE_RECONCILE_CANCEL': {
+      let { messages } = state;
+      const { userPlayer } = state;
+
+      messages = messages.slice();
+      messages.push({
+        value: 'Đề nghị hòa bị từ chối',
+        people: userPlayer
+      });
+      return {
+        ...state,
+        messages,
+        isRequesting: false,
+        isRequestReconcile: false,
+        isReceiverRequestReconcile: false
+      };
+    }
+    case 'SOCKET_REQUEST_RECONCILE_TIMEOUT': {
+      let { messages } = state;
+      const { userPlayer } = state;
+      messages = messages.slice();
+      messages.push({
+        value: 'Không phản hồi',
+        people: userPlayer
+      });
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestReconcile: false,
+        isReceiverRequestReconcile: false,
         messages
       };
     }

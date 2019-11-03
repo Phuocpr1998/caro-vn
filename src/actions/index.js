@@ -31,12 +31,18 @@ export const changeMovePermission = () => ({
   type: 'MOVE_PERMISION_CHANGE'
 });
 
-export const giveUp = user => ({
-  type: 'REQUEST_GIVEUP',
-  user
+export const giveUp = () => ({
+  type: 'REQUEST_GIVEUP'
 });
 
-export const giveUpCancel = user => ({
-  type: 'REQUEST_GIVEUP_CANCEL',
-  user
+export const giveUpCancel = () => ({
+  type: 'REQUEST_GIVEUP_CANCEL'
+});
+
+export const reconcile = () => ({
+  type: 'REQUEST_RECONCILE'
+});
+
+export const reconcileCancel = () => ({
+  type: 'REQUEST_RECONCILE_CANCEL'
 });

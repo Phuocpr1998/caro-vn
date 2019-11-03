@@ -8,13 +8,13 @@ function Reconcile(props) {
     handleCancel,
     handleAccept,
     user,
-    isReceiverRequestGiveUp,
+    isReceiverRequestReconcile,
     isRequesting
   } = props;
 
   let requestGiveUpAnimation;
 
-  if (isReceiverRequestGiveUp) {
+  if (isReceiverRequestReconcile) {
     requestGiveUpAnimation = <Modal.Body>Đối thủ xin đầu hàng.</Modal.Body>;
   } else {
     requestGiveUpAnimation = isRequesting ? (
