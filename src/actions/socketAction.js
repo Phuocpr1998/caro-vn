@@ -20,6 +20,10 @@ export const requestGiveUp = user => ({
   user
 });
 
+export const receiverRequestGiveUpTimeout = () => ({
+  type: 'SOCKET_RECEVIER_REQUEST_GIVEUP_TIMEOUT'
+});
+
 export const receiverRequestGiveUp = user => ({
   type: 'SOCKET_RECEVIER_REQUEST_GIVEUP',
   user
@@ -78,6 +82,10 @@ export const receiverResponseReconcileAccept = user => ({
 export const receiverResponseReconcileCancel = user => ({
   type: 'SOCKET_RECEVIER_RESPONSE_RECONCILE_CANCEL',
   user
+});
+
+export const receiverRequestReconcileTimeout = () => ({
+  type: 'SOCKET_RECEVIER_REQUEST_RECONCILE_TIMEOUT'
 });
 
 export const requestReconcileTimeout = user => ({
@@ -141,6 +149,9 @@ export function connectToSocketServer() {
     socketClient.on('give_up_cancel', () => {
       dispatch(receiverResponseGiveUpCancel());
     });
+    socketClient.on('give_up_timeout', () => {
+      dispatch(receiverRequestGiveUpTimeout());
+    });
     socketClient.on('reconcile', () => {
       dispatch(receiverRequestGiveUp());
     });
@@ -149,6 +160,9 @@ export function connectToSocketServer() {
     });
     socketClient.on('reconcile_cancel', () => {
       dispatch(receiverResponseGiveUpCancel());
+    });
+    socketClient.on('reconcile_timeout', () => {
+      dispatch(receiverRequestReconcileTimeout());
     });
     dispatch(updateSocketClient(socketClient));
   };

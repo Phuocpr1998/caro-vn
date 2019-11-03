@@ -258,6 +258,8 @@ const GameReducer = (
     disconnectToServer: false,
     notPermissionMove: false,
     isRequestGiveUp: false,
+    isRequestReconcile: false,
+    isReceiverRequestReconcile: false,
     isReceiverRequestGiveUp: false,
     isRequesting: false,
     indexHistorySelect: -1
@@ -460,24 +462,6 @@ const GameReducer = (
         messageChat: action.message
       };
     }
-    case 'REQUEST_GIVEUP': {
-      const { isRequestGiveUp } = state;
-      if (isRequestGiveUp) {
-        return state;
-      }
-      return {
-        ...state,
-        isRequestGiveUp: true,
-        isRequesting: false
-      };
-    }
-    case 'REQUEST_GIVEUP_CANCEL': {
-      return {
-        ...state,
-        isRequestGiveUp: false,
-        isRequesting: false
-      };
-    }
     case 'MESSAGE_SEND': {
       const { messages, messageChat, socketClient } = state;
       if (messageChat === undefined || messageChat === '') {
@@ -580,6 +564,40 @@ const GameReducer = (
         winner: user
       };
     }
+    case 'REQUEST_GIVEUP': {
+      const { isRequestGiveUp } = state;
+      if (isRequestGiveUp) {
+        return state;
+      }
+      return {
+        ...state,
+        isRequestGiveUp: true,
+        isRequesting: false
+      };
+    }
+    case 'REQUEST_GIVEUP_CANCEL': {
+      return {
+        ...state,
+        isRequestGiveUp: false,
+        isRequesting: false
+      };
+    }
+    case 'SOCKET_RECEVIER_REQUEST_GIVEUP_TIMEOUT': {
+      let { messages } = state;
+      const { user } = state;
+      messages = messages.slice();
+      messages.push({
+        value: 'Đề nghị cầu thua của đối thủ đã hết hạn.',
+        people: user
+      });
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestGiveUp: false,
+        isReceiverRequestReconcile: false,
+        messages
+      };
+    }
     case 'SOCKET_REQUEST_GIVEUP': {
       const { socketClient } = state;
       socketClient.emit('give_up');
@@ -657,7 +675,9 @@ const GameReducer = (
     }
     case 'SOCKET_REQUEST_GIVEUP_TIMEOUT': {
       let { messages } = state;
-      const { userPlayer } = state;
+      const { userPlayer, socketClient } = state;
+      socketClient.emit('give_up_timeout');
+
       messages = messages.slice();
       messages.push({
         value: 'Không phản hồi',
@@ -688,6 +708,22 @@ const GameReducer = (
         isRequesting: false,
         isRequestReconcile: false,
         isReceiverRequestReconcile: false
+      };
+    }
+    case 'SOCKET_RECEVIER_REQUEST_RECONCILE_TIMEOUT': {
+      let { messages } = state;
+      const { user } = state;
+      messages = messages.slice();
+      messages.push({
+        value: 'Đề nghị hòa của đối thủ đã quá hạn',
+        people: user
+      });
+      return {
+        ...state,
+        isRequesting: false,
+        isRequestReconcile: false,
+        isReceiverRequestReconcile: false,
+        messages
       };
     }
     case 'SOCKET_REQUEST_RECONCILE': {
@@ -766,7 +802,9 @@ const GameReducer = (
     }
     case 'SOCKET_REQUEST_RECONCILE_TIMEOUT': {
       let { messages } = state;
-      const { userPlayer } = state;
+      const { userPlayer, socketClient } = state;
+      socketClient.emit('reconcile_timeout');
+
       messages = messages.slice();
       messages.push({
         value: 'Không phản hồi',

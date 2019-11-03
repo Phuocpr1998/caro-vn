@@ -8,6 +8,7 @@ import EndGameContainer from '../../containers/gameplay/dialog/EndGameContainer'
 import MovePermissionContainer from '../../containers/gameplay/dialog/MovePermissionContainer';
 import ControlButtonContainer from '../../containers/gameplay/ControlButtonContainer';
 import GiveUpContainer from '../../containers/gameplay/dialog/GiveUpContainer';
+import ReconcileContainer from '../../containers/gameplay/dialog/ReconcileContainer';
 
 function Game({ winner, partnerDisconnect, disconnectToServer, Xplayer }) {
   let endGameDialog = <></>;
@@ -37,6 +38,7 @@ function Game({ winner, partnerDisconnect, disconnectToServer, Xplayer }) {
     <>
       {endGameDialog}
       <GiveUpContainer />
+      <ReconcileContainer />
       <FindMatchContainer />
       <MovePermissionContainer />
       <h3 className="game-title">Game caro việt nam</h3>

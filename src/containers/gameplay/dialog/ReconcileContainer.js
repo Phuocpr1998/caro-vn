@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
   user: state.ProfileReducer.user
 });
 
-class GiveUpContainer extends React.Component {
+class ReconcileContainer extends React.Component {
   handleAccept() {
     const { dispatch, user, isReceiverRequestReconcile } = this.props;
     if (isReceiverRequestReconcile) {
@@ -59,4 +59,4 @@ class GiveUpContainer extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(GiveUpContainer);
+export default connect(mapStateToProps)(ReconcileContainer);
